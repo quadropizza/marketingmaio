@@ -3,506 +3,900 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quadrô Pizza — Hoje</title>
+<title>Quadrô Pizza — Portal do Gestor</title>
 <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--red:#CC1F1F;--redd:#9B1515;--yellow:#F5C842;--black:#111;--cream:#FFF8F0;--cream2:#F0E8DC;--white:#fff;--green:#1D9E75;--blue:#185FA5;--gray:#777;--shadow:0 4px 24px rgba(0,0,0,0.10)}
+:root{--red:#CC1F1F;--redd:#9B1515;--yel:#F5C842;--blk:#111;--cream:#FFF8F0;--cream2:#F0E8DC;--wht:#fff;--grn:#1D9E75;--blu:#185FA5;--pur:#6B4FBB;--gry:#777;--sh:0 4px 20px rgba(0,0,0,0.09)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Barlow',sans-serif;background:var(--cream);color:var(--black);min-height:100vh}
-
-/* HEADER */
-.hdr{background:var(--red);padding:0;box-shadow:0 4px 0 var(--redd)}
-.hdr-in{max-width:700px;margin:0 auto;padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-family:'Black Ops One',sans-serif;font-size:20px;color:var(--yellow);display:flex;align-items:center;gap:6px}
-.logo span{color:white}
-.hdr-date{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,0.75);text-transform:uppercase;letter-spacing:.06em;text-align:right}
-
-.checker{height:10px;background-image:repeating-linear-gradient(90deg,var(--cream2) 0 10px,var(--red) 10px 20px)}
-
-/* MAIN */
-.main{max-width:700px;margin:0 auto;padding:20px 16px 60px}
-
-/* HERO DO DIA */
-.hero{background:var(--black);border-radius:20px;padding:20px 22px;margin-bottom:18px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-20px;right:-20px;width:120px;height:120px;background:var(--yellow);opacity:.08;border-radius:50%}
-.hero-label{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--yellow);margin-bottom:4px}
-.hero-title{font-family:'Black Ops One',sans-serif;font-size:26px;color:white;line-height:1.1;margin-bottom:8px}
-.hero-sub{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.5}
-.hero-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.hbadge{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:4px 10px;border-radius:20px}
-.hbv{background:var(--red);color:white}
-.hbc{background:var(--yellow);color:#5A3C00}
-.hbs{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.85)}
-
-/* PROGRESS */
-.prog-wrap{background:white;border-radius:14px;padding:14px 18px;margin-bottom:14px;box-shadow:var(--shadow)}
-.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.prog-label{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray)}
-.prog-pct{font-family:'Black Ops One',sans-serif;font-size:20px;color:var(--red)}
-.prog-bar-bg{background:#EEE;border-radius:8px;height:8px;overflow:hidden}
-.prog-bar{height:100%;border-radius:8px;background:var(--green);transition:width .4s}
-
-/* TASK CARD */
-.task-card{background:white;border-radius:16px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:12px}
-.task-card-hdr{padding:12px 18px;display:flex;align-items:center;gap:10px}
-.task-card-hdr.red{background:var(--red)}
-.task-card-hdr.yellow{background:var(--yellow)}
-.task-card-hdr.black{background:var(--black)}
-.task-card-hdr.green{background:var(--green)}
-.task-card-hdr.purple{background:#6B4FBB}
-.task-card-hdr.blue{background:var(--blue)}
-.tc-icon{font-size:20px}
-.tc-title{font-family:'Black Ops One',sans-serif;font-size:15px;color:white;letter-spacing:.5px}
-.task-card-hdr.yellow .tc-title{color:#3A2500}
-.tc-reset{margin-left:auto;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);border:none;border-radius:6px;padding:3px 9px;cursor:pointer}
-.task-card-hdr.yellow .tc-reset{color:rgba(0,0,0,0.4);background:rgba(0,0,0,0.08)}
-
-/* TASK ROW */
-.task-row{border-bottom:1px solid #F0EAE0;cursor:pointer;transition:background .15s}
-.task-row:last-child{border-bottom:none}
-.task-row:hover{background:#FFFAF5}
-.task-row.done{opacity:.38}
-.task-row-inner{display:flex;gap:12px;align-items:flex-start;padding:12px 18px}
-.tcheck{width:22px;height:22px;border-radius:7px;border:2px solid #DDD;flex-shrink:0;margin-top:2px;display:flex;align-items:center;justify-content:center;font-size:12px;color:white;transition:all .2s}
-.done .tcheck{background:var(--green);border-color:var(--green)}
-.ttext{font-size:13px;line-height:1.6;flex:1}
-.done .ttext{text-decoration:line-through}
-
-/* EXPANDABLE DETAIL */
-.task-detail{display:none;padding:0 18px 14px 52px}
-.task-detail.open{display:block}
-
-/* PROMPT INLINE */
-.prompt-inline{background:#1a1a1a;border-radius:10px;padding:12px 14px;margin-top:8px;position:relative}
-.prompt-txt{font-family:monospace;font-size:11px;color:#C8F7B0;line-height:1.7;white-space:pre-wrap;word-break:break-word}
-.prompt-copy{position:absolute;top:8px;right:8px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;background:var(--yellow);color:#3A2500;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;transition:all .2s}
-.prompt-copy:hover{background:#D4A832}
-.prompt-copy.ok{background:var(--green);color:white}
-
-/* WA BUBBLE INLINE */
-.wa-inline{background:#DCF8C6;border-radius:12px 12px 4px 12px;padding:12px 14px;font-size:12px;line-height:1.7;color:#111;white-space:pre-wrap;margin-top:8px;word-break:break-word;position:relative}
-.wa-copy-btn{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;background:#25D366;color:white;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;margin-top:6px;display:inline-block;transition:all .2s}
-.wa-copy-btn:hover{background:#1aad55}
-.wa-copy-btn.ok{background:#0F7A3E}
-
-/* NOTE */
-.note{font-size:12px;color:#555;line-height:1.6;padding:8px 10px;background:#FFF8EC;border-radius:8px;border-left:3px solid var(--yellow);margin-top:8px}
-.note-blue{background:#EBF3FB;border-left-color:var(--blue);color:#0C3D6A}
-.note-green{background:#E5F5EE;border-left-color:var(--green);color:#0A4028}
-.note-purple{background:#F0ECFB;border-left-color:#6B4FBB;color:#3A2070}
-
-/* LINK INPUT CARD */
-.link-card{background:white;border-radius:16px;padding:18px;box-shadow:var(--shadow);margin-bottom:12px;display:flex;flex-direction:column;gap:10px}
-.link-card-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray)}
-.link-input{width:100%;padding:10px 14px;border-radius:10px;border:1.5px solid #DDD;font-size:13px;font-family:'Barlow',sans-serif;outline:none;transition:border .2s}
-.link-input:focus{border-color:var(--red)}
-.link-row{display:flex;gap:8px}
-.link-btn{flex:1;padding:10px;background:var(--red);color:white;border:none;border-radius:10px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;transition:background .2s}
-.link-btn:hover{background:var(--redd)}
-.disc-row{display:flex;gap:8px;align-items:center}
-.disc-input{width:80px;padding:10px 14px;border-radius:10px;border:1.5px solid #DDD;font-size:13px;font-family:'Barlow',sans-serif;outline:none;text-align:center}
-.disc-label{font-size:13px;color:var(--gray)}
-
+body{font-family:'Barlow',sans-serif;background:var(--cream);color:var(--blk);min-height:100vh}
+.hdr{background:var(--red);box-shadow:0 3px 0 var(--redd);position:sticky;top:0;z-index:100}
+.hdr-top{max-width:900px;margin:0 auto;padding:0 18px;height:52px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Black Ops One',sans-serif;font-size:19px;color:var(--yel);display:flex;align-items:center;gap:6px}
+.logo span{color:#fff}
+.hdr-date{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:.05em}
+.tabs{max-width:900px;margin:0 auto;padding:0 18px;display:flex}
+.tab{font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:rgba(255,255,255,0.5);background:transparent;border:none;border-bottom:3px solid transparent;padding:10px 16px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.tab:hover{color:var(--yel)}
+.tab.on{color:var(--yel);border-bottom-color:var(--yel)}
+.checker{height:9px;background:repeating-linear-gradient(90deg,var(--cream2) 0 9px,var(--red) 9px 18px)}
+.sec{display:none;max-width:900px;margin:0 auto;padding:18px 18px 80px}
+.sec.on{display:block}
+/* DATE NAV */
+.date-nav{display:flex;align-items:center;gap:6px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px}
+.date-nav::-webkit-scrollbar{display:none}
+.dnav-btn{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:6px 12px;border-radius:18px;border:1.5px solid #DDD;background:var(--wht);color:var(--gry);cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;line-height:1.3;text-align:center}
+.dnav-btn:hover{border-color:var(--red);color:var(--red)}
+.dnav-btn.on{background:var(--red);border-color:var(--red);color:#fff}
+.dnav-btn.tod{border-color:var(--yel);color:#8B4000}
+.dnav-btn.tod.on{background:var(--red);border-color:var(--red);color:#fff}
+/* CFG */
+.cfg{background:var(--wht);border-radius:14px;padding:14px 18px;box-shadow:var(--sh);margin-bottom:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+.cfg-g{display:flex;flex-direction:column;gap:4px;flex:1;min-width:180px}
+.cfg-lbl{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gry)}
+.cfg-in{padding:9px 12px;border-radius:9px;border:1.5px solid #DDD;font-size:13px;font-family:'Barlow',sans-serif;outline:none;transition:border .2s;width:100%}
+.cfg-in:focus{border-color:var(--red)}
+.cfg-btn{padding:9px 18px;background:var(--red);color:#fff;border:none;border-radius:9px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;cursor:pointer;white-space:nowrap}
+/* HERO */
+.hero{background:var(--blk);border-radius:18px;padding:18px 20px;margin-bottom:14px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;background:var(--yel);opacity:.07;border-radius:50%}
+.hero-eye{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--yel);margin-bottom:2px}
+.hero-title{font-family:'Black Ops One',sans-serif;font-size:22px;color:#fff;line-height:1.1;margin-bottom:6px}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.5;margin-bottom:10px}
+.hero-tags{display:flex;flex-wrap:wrap;gap:6px}
+.htag{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:3px 10px;border-radius:12px}
+.ht-r{background:var(--red);color:#fff}
+.ht-y{background:var(--yel);color:#5A3C00}
+.ht-w{background:rgba(255,255,255,0.13);color:rgba(255,255,255,0.8)}
+/* PROG */
+.prog{background:var(--wht);border-radius:12px;padding:12px 16px;margin-bottom:14px;box-shadow:var(--sh)}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.prog-lbl{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gry)}
+.prog-pct{font-family:'Black Ops One',sans-serif;font-size:18px;color:var(--red)}
+.prog-track{background:#EEE;border-radius:6px;height:7px;overflow:hidden}
+.prog-fill{height:100%;border-radius:6px;background:var(--grn);transition:width .4s}
+/* GRID */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+/* BCARD */
+.bcard{background:var(--wht);border-radius:14px;overflow:hidden;box-shadow:var(--sh);margin-bottom:12px}
+.bcard-hdr{padding:11px 16px;display:flex;align-items:center;gap:8px}
+.bcard-hdr.red{background:var(--red)}
+.bcard-hdr.blk{background:var(--blk)}
+.bcard-hdr.yel{background:var(--yel)}
+.bcard-hdr.grn{background:var(--grn)}
+.bcard-hdr.blu{background:var(--blu)}
+.bcard-hdr.pur{background:var(--pur)}
+.bcard-hdr.org{background:#D97706}
+.bc-icon{font-size:17px}
+.bc-title{font-family:'Black Ops One',sans-serif;font-size:13px;color:#fff;letter-spacing:.4px;flex:1}
+.bcard-hdr.yel .bc-title{color:#3A2500}
+.breset{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.75);border:none;border-radius:5px;padding:2px 8px;cursor:pointer;flex-shrink:0}
+.bcard-hdr.yel .breset{color:rgba(0,0,0,0.3);background:rgba(0,0,0,0.07)}
+/* TROW */
+.trow{border-bottom:1px solid #F5EEE6;cursor:pointer;transition:background .15s}
+.trow:last-child{border-bottom:none}
+.trow:hover{background:#FFFBF5}
+.trow.done{opacity:.32}
+.trow-top{display:flex;gap:10px;align-items:flex-start;padding:11px 16px}
+.tchk{width:22px;height:22px;border-radius:6px;border:2px solid #CCC;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;transition:all .2s;cursor:pointer;z-index:2}
+.tchk:hover{border-color:var(--grn);background:#E5F5EE}
+.done .tchk{background:var(--grn);border-color:var(--grn)}
+.trow:not(.done):hover .texp{color:#999}
+.ttxt{font-size:13px;line-height:1.55;flex:1}
+.done .ttxt{text-decoration:line-through}
+.texp{font-size:16px;color:#CCC;margin-left:auto;flex-shrink:0;transition:transform .2s}
+.trow.open-row .texp{transform:rotate(90deg)}
+/* DETAIL */
+.tdetail{display:none;padding:0 16px 14px 46px}
+.tdetail.open{display:block}
+/* NOTES */
+.note{font-size:12px;line-height:1.65;padding:9px 12px;border-radius:8px;border-left:3px solid var(--yel);background:#FFF8EC;color:#555;margin-top:7px}
+.note.blu{background:#EBF3FB;border-color:var(--blu);color:#0C3D6A}
+.note.grn{background:#E5F5EE;border-color:var(--grn);color:#0A4028}
+.note.pur{background:#F0ECFB;border-color:var(--pur);color:#3A2070}
+.note.red{background:#FEF0EE;border-color:var(--red);color:#7A1A1A}
+.note strong{font-weight:600}
+/* STEPS */
+.steps{margin-top:8px;display:flex;flex-direction:column;gap:6px}
+.step{display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.55;color:#444;background:var(--cream);border-radius:8px;padding:8px 11px}
+.step-num{font-family:'Black Ops One',sans-serif;font-size:13px;color:var(--red);min-width:18px;flex-shrink:0;line-height:1.3}
+/* VIDEO REF */
+.vref{background:#1a1a1a;border-radius:10px;padding:12px 14px;margin-top:8px}
+.vref-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--yel);margin-bottom:8px}
+.vref-item{display:flex;align-items:center;gap:10px;margin-bottom:6px;background:rgba(255,255,255,0.04);border-radius:7px;padding:8px 10px}
+.vref-item:last-child{margin-bottom:0}
+.vref-play{font-size:14px;flex-shrink:0}
+.vref-info{flex:1;min-width:0}
+.vref-desc{font-size:11px;color:rgba(255,255,255,0.5);margin-bottom:2px}
+.vref-url{font-size:12px;color:#7DD3FC;text-decoration:none;word-break:break-all;display:block}
+.vref-url:hover{color:#BAE6FD;text-decoration:underline}
+.vref-open{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;background:var(--yel);color:#3A2500;border:none;border-radius:6px;padding:4px 9px;cursor:pointer;flex-shrink:0;white-space:nowrap}
+/* PROMPT */
+.prompt-wrap{background:#111;border-radius:10px;padding:12px 14px;margin-top:8px;position:relative}
+.prompt-head{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--yel);margin-bottom:6px}
+.prompt-txt{font-family:monospace;font-size:11px;color:#C8F7B0;line-height:1.75;white-space:pre-wrap;word-break:break-word;padding-right:64px}
+.pcopy{position:absolute;top:10px;right:10px;font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;background:var(--yel);color:#3A2500;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;transition:all .2s}
+.pcopy:hover{background:#D4A832}
+.pcopy.ok{background:var(--grn);color:#fff}
+/* STORY */
+.story-wrap{background:#FFF4EC;border-radius:10px;padding:12px 14px;margin-top:8px;border:1.5px solid #F0DDD0}
+.story-type-tag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 9px;border-radius:12px;margin-bottom:8px}
+.st-foto{background:#E6F1FB;color:var(--blu)}
+.st-ai{background:#FFF3CD;color:#7A5200}
+.story-hl-big{font-family:'Black Ops One',sans-serif;font-size:15px;color:var(--red);line-height:1.2;margin-bottom:6px}
+.story-caption{font-size:12px;color:#444;line-height:1.6;margin-bottom:8px;background:#fff;border-radius:7px;padding:8px 10px;border-left:3px solid var(--red)}
+.story-steps{display:flex;flex-direction:column;gap:5px;margin-top:6px}
+.sstep{font-size:12px;color:#555;line-height:1.5;display:flex;gap:8px;align-items:flex-start}
+.sstep-n{background:var(--red);color:#fff;font-family:'Black Ops One',sans-serif;font-size:11px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 /* TIP */
-.tip{background:var(--yellow);border-radius:14px;padding:14px 18px;font-size:13px;line-height:1.7;color:#4A2E00;margin-bottom:12px}
+.tip{background:var(--yel);border-radius:12px;padding:13px 16px;font-size:13px;line-height:1.7;color:#4A2E00;margin-bottom:12px}
 .tip strong{color:#2A1800}
-
-/* SECTION DIVIDER */
-.sdiv{font-family:'Black Ops One',sans-serif;font-size:16px;color:var(--red);margin:22px 0 10px;display:flex;align-items:center;gap:10px}
-.sdiv::after{content:'';flex:1;height:2px;background:var(--red);opacity:.15;border-radius:2px}
-
-/* STORY MINI */
-.story-mini{background:white;border-radius:14px;padding:14px 16px;box-shadow:var(--shadow);margin-bottom:10px}
-.story-day-tag{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--red);margin-bottom:4px}
-.story-hl{font-family:'Black Ops One',sans-serif;font-size:15px;color:var(--black);line-height:1.2;margin-bottom:8px}
-.story-type-tag{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;margin-bottom:8px}
-.stt-foto{background:#E6F1FB;color:var(--blue)}
-.stt-ai{background:#FFF3CD;color:#7A5200}
-.stt-video{background:#FAECE7;color:#993C1D}
-.story-inst{font-size:12px;color:#555;line-height:1.5}
-
-@media(max-width:480px){
-  .hero-title{font-size:22px}
-  .main{padding:16px 12px 60px}
-}
+/* LEGEND ROW */
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--gry)}
+.leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+/* WA TAB */
+.fcard{background:var(--wht);border-radius:14px;overflow:hidden;box-shadow:var(--sh);margin-bottom:12px}
+.wa-hdr{padding:13px 16px;display:flex;align-items:flex-start;gap:10px}
+.wa-hdr.wg{background:#075E54}
+.wa-hdr.wp{background:var(--pur)}
+.wa-hdr.wgrn{background:var(--grn)}
+.wa-hdr.wy{background:#B8860B}
+.wa-hdr.wb{background:var(--blu)}
+.wa-hdr-title{font-family:'Black Ops One',sans-serif;font-size:14px;color:#fff;letter-spacing:.4px}
+.wa-hdr-sub{font-size:11px;color:rgba(255,255,255,0.6);margin-top:2px}
+.wa-body{padding:14px 16px}
+.wa-atalho{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gry);margin-bottom:6px}
+.wa-warn{font-size:12px;color:#8B2000;background:#FEF0EE;border-radius:7px;padding:6px 10px;margin-bottom:8px;border-left:3px solid var(--red)}
+.wa-bubble{background:#DCF8C6;border-radius:12px 12px 4px 12px;padding:13px 15px;font-size:13px;line-height:1.8;color:#111;white-space:pre-wrap;word-break:break-word}
+.wa-copy{display:block;width:100%;margin-top:9px;padding:10px;background:#25D366;color:#fff;border:none;border-radius:9px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;transition:all .2s}
+.wa-copy:hover{background:#1aad55}
+.wa-copy.ok{background:#0F7A3E}
 </style>
 </head>
 <body>
-
 <div class="checker"></div>
 <header class="hdr">
-  <div class="hdr-in">
+  <div class="hdr-top">
     <div class="logo">🍕 Quadrô <span>Pizza</span></div>
     <div class="hdr-date" id="hdr-date"></div>
   </div>
+  <div class="tabs">
+    <button class="tab on" onclick="goTab('post',this)">📋 Postagens</button>
+    <button class="tab" onclick="goTab('wa',this)">💬 WhatsApp</button>
+  </div>
 </header>
 
-<main class="main">
-
-<!-- LINK CONFIG -->
-<div class="link-card">
-  <div class="link-card-title">⚙️ Configurar uma vez só</div>
-  <input class="link-input" id="portal-link" type="text" placeholder="🔗 Cole o link do portal de pedidos aqui" oninput="saveConfig()">
-  <div class="link-row">
-    <div class="disc-row" style="flex:1">
-      <input class="disc-input" id="disc" type="number" min="1" max="50" placeholder="10" oninput="saveConfig()">
-      <span class="disc-label">% desconto pós-avaliação</span>
+<!-- ══════════ POSTAGENS ══════════ -->
+<div id="tab-post" class="sec on">
+  <div class="cfg">
+    <div class="cfg-g">
+      <div class="cfg-lbl">🔗 Link do portal de pedidos</div>
+      <input class="cfg-in" id="ilink" type="text" placeholder="Cole o link aqui..." oninput="saveCfg()">
     </div>
-    <button class="link-btn" onclick="openPortal()">Abrir portal →</button>
+    <div class="cfg-g" style="max-width:120px">
+      <div class="cfg-lbl">💰 % desconto</div>
+      <input class="cfg-in" id="idisc" type="number" min="1" max="50" placeholder="10" oninput="saveCfg()">
+    </div>
+    <button class="cfg-btn" onclick="openPortal()">Abrir portal →</button>
+  </div>
+  <div class="date-nav" id="date-nav"></div>
+  <div id="day-content"></div>
+</div>
+
+<!-- ══════════ WHATSAPP ══════════ -->
+<div id="tab-wa" class="sec">
+  <div class="tip">💡 <strong>Como cadastrar:</strong> WhatsApp Business → Ferramentas Comerciais → Respostas Rápidas → cole a mensagem + atalho. Faça uma única vez e use para sempre!</div>
+
+  <div class="fcard">
+    <div class="wa-hdr wg"><div><div class="wa-hdr-title">👋 Boas-vindas automática</div><div class="wa-hdr-sub">Primeira mensagem quando alguém entrar em contato</div></div></div>
+    <div class="wa-body"><div class="wa-atalho">Atalho: /ola</div><div class="wa-bubble" id="wm1"></div><button class="wa-copy" onclick="cpWA(this,'wm1')">Copiar mensagem</button></div>
+  </div>
+  <div class="fcard">
+    <div class="wa-hdr wg"><div><div class="wa-hdr-title">🍕 Opção 1 — Sabores</div><div class="wa-hdr-sub">Quando o cliente pedir o cardápio</div></div></div>
+    <div class="wa-body"><div class="wa-atalho">Atalho: /sabores</div><div class="wa-warn">⚠️ Edite os sabores conforme seu cardápio atual antes de cadastrar.</div><div class="wa-bubble" id="wm2"></div><button class="wa-copy" onclick="cpWA(this,'wm2')">Copiar mensagem</button></div>
+  </div>
+  <div class="fcard">
+    <div class="wa-hdr wg"><div><div class="wa-hdr-title">💰 Opção 2 — Combos</div><div class="wa-hdr-sub">Quando o cliente quiser ver promoções</div></div></div>
+    <div class="wa-body"><div class="wa-atalho">Atalho: /combos</div><div class="wa-warn">⚠️ Substitua [R$XX] pelos preços reais antes de cadastrar.</div><div class="wa-bubble" id="wm3"></div><button class="wa-copy" onclick="cpWA(this,'wm3')">Copiar mensagem</button></div>
+  </div>
+  <div class="fcard">
+    <div class="wa-hdr wg"><div><div class="wa-hdr-title">📲 Opção 3 — Como agendar</div><div class="wa-hdr-sub">Dúvidas sobre agendamento e retirada sem fila</div></div></div>
+    <div class="wa-body"><div class="wa-atalho">Atalho: /agendar</div><div class="wa-bubble" id="wm4"></div><button class="wa-copy" onclick="cpWA(this,'wm4')">Copiar mensagem</button></div>
+  </div>
+  <div class="fcard">
+    <div class="wa-hdr wp"><div><div class="wa-hdr-title">🎒 Opção 4 — Entrega CAU</div><div class="wa-hdr-sub">Para pais de alunos do CAU até o 5º ano</div></div></div>
+    <div class="wa-body"><div class="wa-atalho">Atalho: /cau</div><div class="wa-bubble" id="wm5"></div><button class="wa-copy" onclick="cpWA(this,'wm5')">Copiar mensagem</button></div>
+  </div>
+  <div class="fcard">
+    <div class="wa-hdr wb"><div><div class="wa-hdr-title">📍 Opção 5 — Localização e horário</div><div class="wa-hdr-sub">Quando perguntarem onde fica ou quando abre</div></div></div>
+    <div class="wa-body"><div class="wa-atalho">Atalho: /local</div><div class="wa-bubble" id="wm6"></div><button class="wa-copy" onclick="cpWA(this,'wm6')">Copiar mensagem</button></div>
+  </div>
+  <div class="fcard">
+    <div class="wa-hdr wgrn"><div><div class="wa-hdr-title">🌅 Pós-venda — após a entrega</div><div class="wa-hdr-sub">Enviar para cada cliente após comprar — substituir [Nome]</div></div></div>
+    <div class="wa-body"><div class="wa-atalho">Atalho: /posvenda</div><div class="wa-warn">⚠️ Substitua [Nome] pelo nome real do cliente antes de enviar.</div><div class="wa-bubble" id="wm7"></div><button class="wa-copy" onclick="cpWA(this,'wm7')">Copiar mensagem</button></div>
+  </div>
+  <div class="fcard">
+    <div class="wa-hdr wy"><div><div class="wa-hdr-title">🎁 Cupom pós-avaliação</div><div class="wa-hdr-sub">Enviar para quem avaliou o pedido no portal — substituir [Nome]</div></div></div>
+    <div class="wa-body"><div class="wa-atalho">Atalho: /cupom</div><div class="wa-warn">⚠️ Substitua [Nome] pelo nome real. O % de desconto vem da configuração na aba Postagens.</div><div class="wa-bubble" id="wm8"></div><button class="wa-copy" onclick="cpWA(this,'wm8')">Copiar mensagem</button></div>
   </div>
 </div>
-
-<!-- HERO -->
-<div class="hero" id="hero-box">
-  <div class="hero-label">Hoje é</div>
-  <div class="hero-title" id="hero-title">Carregando...</div>
-  <div class="hero-sub" id="hero-sub"></div>
-  <div class="hero-badges" id="hero-badges"></div>
-</div>
-
-<!-- PROGRESSO -->
-<div class="prog-wrap">
-  <div class="prog-top">
-    <div class="prog-label">Tarefas de hoje</div>
-    <div class="prog-pct" id="prog-pct">0%</div>
-  </div>
-  <div class="prog-bar-bg"><div class="prog-bar" id="prog-bar" style="width:0%"></div></div>
-</div>
-
-<!-- TASKS CONTAINER -->
-<div id="tasks-container"></div>
-
-</main>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────
-const PORTAL_KEY = 'qp_link';
-const DISC_KEY   = 'qp_disc';
-const TASK_KEY   = 'qp_tasks_';
+// ── CONFIG ──────────────────────────────────────────────────
+const PK='qp_link2',DK='qp_disc2',TK='qp_t_';
+function saveCfg(){localStorage.setItem(PK,document.getElementById('ilink').value);localStorage.setItem(DK,document.getElementById('idisc').value)}
+function loadCfg(){document.getElementById('ilink').value=localStorage.getItem(PK)||'';document.getElementById('idisc').value=localStorage.getItem(DK)||'10'}
+function getL(){return localStorage.getItem(PK)||'[LINK DO PORTAL]'}
+function getD(){return localStorage.getItem(DK)||'10'}
+function openPortal(){const l=getL();if(l&&l!=='[LINK DO PORTAL]')window.open(l,'_blank');else alert('Cole o link do portal primeiro!')}
 
-function saveConfig(){
-  localStorage.setItem(PORTAL_KEY, document.getElementById('portal-link').value);
-  localStorage.setItem(DISC_KEY, document.getElementById('disc').value);
-}
-function loadConfig(){
-  const l = localStorage.getItem(PORTAL_KEY)||'';
-  const d = localStorage.getItem(DISC_KEY)||'10';
-  document.getElementById('portal-link').value = l;
-  document.getElementById('disc').value = d;
-}
-function getLink(){ return localStorage.getItem(PORTAL_KEY)||'[LINK DO PORTAL]'; }
-function getDisc(){ return localStorage.getItem(DISC_KEY)||'10'; }
-function openPortal(){
-  const l = getLink();
-  if(l && l !== '[LINK DO PORTAL]') window.open(l,'_blank');
-  else alert('Cole o link do portal primeiro!');
-}
+// ── DATE UTILS ──────────────────────────────────────────────
+const DN=['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+const MN=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const MNS=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+function dkey(d){return`${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`}
+function todayD(){const d=new Date();d.setHours(0,0,0,0);return d}
+let activeDate=todayD();
 
-// ─── DATE ─────────────────────────────────────────────────
-const DAYS   = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-const MONTHS = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-const DAYS_S = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+// ── CAMPAIGN DATA ───────────────────────────────────────────
+const VR=[
+  'https://vt.tiktok.com/ZS9TG23oV/',
+  'https://vt.tiktok.com/ZS9Tt1D9t/',
+  'https://vt.tiktok.com/ZS9TGgtjU/',
+  'https://vt.tiktok.com/ZS9TGqqEY/',
+  'https://vt.tiktok.com/ZS9Tt1N6D/',
+  'https://vt.tiktok.com/ZS9Tt1oXd/',
+  'https://vt.tiktok.com/ZS9TtRwJK/',
+  'https://vt.tiktok.com/ZS9TtRxem/',
+  'https://vt.tiktok.com/ZS9TteddT/',
+];
 
-function today(){ return new Date(); }
-function todayKey(){ const d=today(); return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`; }
-function todayDow(){ return today().getDay(); } // 0=Dom
+const CAMP={
+  '2026-5-12':{type:'video',num:1,
+    theme:'Abertura de temporada',
+    refs:[{url:VR[0],desc:'Referência do vídeo 1'}],
+    roteiro:`Mostre os bastidores REAIS de preparar a Quadrô Pizza antes do intervalo. Sem roteiro decorado — seja natural e animado.`,
+    cenas:[
+      'Cena 1 (2s): Abra com a caixa/material sendo aberto — câmera de cima',
+      'Cena 2 (3s): Mãos montando a pizza em câmera rápida (time-lapse)',
+      'Cena 3 (3s): Close na pizza pronta saindo do forno — câmera bem pertinho',
+      'Cena 4 (5s): Fale olhando para a câmera: "A Quadrô voltou — e o vício também. Já agenda o seu!"',
+      'Cena 5 (2s): Mostrar o portal no celular com o dedo apontando para ele',
+    ],
+    legenda:`A Quadrô voltou! 🍕🔥 Agendamento aberto — sem fila, sem estresse. Link na bio! #QuadroPizza #UNIVALI #PizzaArtesanal`,
+    audio:'Música animada e acelerada — buscar "trending TikTok upbeat 2026" no CapCut',
+  },
+  '2026-5-13':{type:'card',num:1,
+    theme:'Agende e retire sem fila',
+    prompt:`Create a bold vertical social media feed post (1080x1350px) for "Quadrô Pizza" — a retro Brazilian square pizza brand at UNIVALI university.
 
-function setHeader(){
-  const d = today();
-  document.getElementById('hdr-date').innerHTML = DAYS_S[d.getDay()]+', '+d.getDate()+' '+MONTHS[d.getMonth()];
-}
+BACKGROUND: Deep red (#CC1F1F) with a cream (#FFF8F0) checkered pattern border on left and right sides (classic pizza tablecloth feel).
 
-// ─── CAMPAIGN CALENDAR ────────────────────────────────────
-// Keyed by "YYYY-M-D"
-function dateKey(y,m,d){ return `${y}-${m}-${d}`; }
+TOP SECTION: Bold yellow (#F5C842) outlined text in a condensed impact-style font: "O RECREIO TEM 15 MINUTOS" — large, taking up top 25% of card.
 
-const CAMPAIGN = {
-  // SEMANA 1
-  [dateKey(2026,5,12)]: { type:'video', num:1, theme:'Abertura de temporada', desc:'Bastidores da montagem, "voltamos e o vício também". Grave de manhã antes de abrir.' },
-  [dateKey(2026,5,13)]: { type:'card',  num:1, theme:'Agende e retire sem fila', desc:'CTA principal com QR e link do portal. Gere pela IA e publique.' },
-  [dateKey(2026,5,14)]: { type:'video', num:2, theme:'ASMR corte da pizza quadrada', desc:'"Parece que não cabe mas cabe." Close no corte, som ambiente.' },
-  [dateKey(2026,5,15)]: { type:'card',  num:2, theme:'Cardápio de sabores', desc:'Visual retro com cada sabor listado. Gere pela IA.' },
-  [dateKey(2026,5,16)]: { type:'video', num:3, theme:'POV: você agendou, a fila te olhando', desc:'Humor + agendamento. Grave do ponto de vista de quem já retirou enquanto a fila espera.' },
-  // SEMANA 2
-  [dateKey(2026,5,19)]: { type:'video', num:4, theme:'O recreio é 15 min — agende ou passa fome', desc:'Humor + urgência. Mostre o relógio e a fila.' },
-  [dateKey(2026,5,20)]: { type:'card',  num:3, theme:'Como funciona o agendamento', desc:'Passo a passo visual em 3 etapas. Gere pela IA.' },
-  [dateKey(2026,5,21)]: { type:'video', num:5, theme:'Reação de aluno pegando a pizza', desc:'Testemunhal espontâneo. Peça permissão para gravar.' },
-  [dateKey(2026,5,22)]: { type:'card',  num:4, theme:'Entrega para alunos do CAU', desc:'Alunos do CAU até 5º ano. Informar bloco, sala e ano no pedido.', cau:true },
-  [dateKey(2026,5,23)]: { type:'video', num:6, theme:'Processo da pizza do início ao fim', desc:'Satisfying video. Do zero até a pizza pronta.' },
-  // SEMANA 3
-  [dateKey(2026,5,26)]: { type:'video', num:7, theme:'Antes/depois: fila vs agendado', desc:'Mostre os dois cenários — correria na fila vs pegar e ir.' },
-  [dateKey(2026,5,27)]: { type:'card',  num:5, theme:'Combo da semana', desc:'Oferta especial com CTA de pedido. Edite o preço no Canva após gerar.' },
-  [dateKey(2026,5,28)]: { type:'video', num:8, theme:'Já avaliou? Tem desconto te esperando', desc:'Mostra o fluxo de pós-venda e o cupom de desconto.' },
-  [dateKey(2026,5,29)]: { type:'card',  num:6, theme:'Localização', desc:'Ao lado do Teatro UNIVALI — Bloco C2. Gere pela IA.' },
-  [dateKey(2026,5,30)]: { type:'video', num:9, theme:'Encerramento do mês', desc:'Agradecimento + teaser do próximo período.' },
+CENTER: The brand's cartoon mascot — a smiling square pizza slice wearing black aviator sunglasses, giving a thumbs up — positioned left. To the right, a large melting cheese drip flows diagonally across the card forming the shape of a timer/clock face with the time "15:00" in it.
+
+MAIN HEADLINE: Huge white italic bold text centered: "AGENDE" on line 1, "SUA PIZZA" on line 2. Each word on its own line, maximum size.
+
+SUBTEXT below headline: White text, smaller: "Retire no horário que escolher — sem fila, sem correria."
+
+BOTTOM STRIP: Black bar spanning full width with yellow text: "Peça pelo portal e chegue direto pegar 🍕"
+
+STYLE: Bold, high energy, retro street food poster. No gradients — flat colors only. Maximum contrast. Looks like a concert poster meets a pizza joint.`,
+    publish:[
+      'Abra o ChatGPT (chat.openai.com) ou Adobe Firefly (firefly.adobe.com)',
+      'Copie o prompt acima clicando no botão "Copiar prompt"',
+      'Cole no campo de texto e pressione Enter — aguarde a imagem gerar',
+      'Baixe a imagem em alta resolução (clique com botão direito → salvar)',
+      'Se precisar ajustar algum texto: abra no Canva → "Criar design" → cole como fundo → escreva por cima',
+      'No Instagram: toque em "+" → selecione a imagem → formato quadrado → poste no FEED',
+      'Caption do post: "O recreio é curto demais pra ficar na fila 😤 Agende sua pizza pelo link na bio e retire na hora que você escolher. Sem espera. Sem estresse. 🍕 #QuadroPizza #UNIVALI #PizzaSemFila"',
+      'Após publicar no feed: compartilhe nos Stories tocando nos três pontinhos → "Adicionar aos Stories"',
+    ],
+  },
+  '2026-5-14':{type:'video',num:2,
+    theme:'ASMR: corte da pizza quadrada',
+    refs:[{url:VR[1],desc:'Referência do vídeo 2'}],
+    roteiro:`Vídeo ASMR/satisfying do corte da pizza. Sem fala. O áudio é o protagonista — o chiado, o queijo esticando, o som do corte.`,
+    cenas:[
+      'Cena 1 (3s): Close EXTREMO na pizza saindo do forno — câmera a 5cm da superfície',
+      'Cena 2 (4s): Primeira fatia sendo cortada — câmera lateral, mostre o queijo puxando',
+      'Cena 3 (3s): Câmera de cima: faca descendo devagar, queijo derretendo dos dois lados',
+      'Cena 4 (4s): Fatia sendo levantada — queijo esticando em câmera lenta (use o slow motion do iPhone)',
+      'Cena 5 (2s): Mordida ou entrega para a mão do cliente — satisfação visível',
+      'Texto na tela (final): "Parece que não cabe... mas cabe 😏 — Agende pelo link na bio"',
+    ],
+    legenda:`Não tem como não querer 😩🧀 Pizza quadrada artesanal — agende pelo link na bio e retire sem fila! #QuadroPizza #ASMR #PizzaSatisfying #UNIVALI`,
+    audio:'SOM AMBIENTE da pizza — não colocar música por cima. Usar o próprio som gravado.',
+  },
+  '2026-5-15':{type:'card',num:2,
+    theme:'Cardápio de sabores',
+    prompt:`Create a retro-style square pizza menu card (1080x1080px) for "Quadrô Pizza."
+
+BACKGROUND: Cream/off-white (#FFF8F0) with a bold red (#CC1F1F) checkered pattern border top and bottom (like a classic Italian restaurant tablecloth).
+
+TOP: The text "NOSSOS SABORES" in a large condensed bold yellow (#F5C842) font with a thick black outline, centered, all caps. Below it, a thin red divider line.
+
+CENTER GRID: A 2x2 grid of illustrated square pizza slices (the brand's signature square/rectangular shape), each slice drawn in a retro cartoon style with:
+- Top-left slice: Pepperoni — red circles on yellow cheese
+- Top-right slice: Margherita — tomato slices and green basil leaves
+- Bottom-left slice: Portuguesa — visible ham, egg and olives
+- Bottom-right slice: Calabresa — thin sausage slices and onion rings
+
+Each slice has a small torn paper label tag in yellow with the flavor name in black bold text.
+
+BOTTOM: Text in black bold italic: "Artesanal. Formato único. Preço acessível." — centered.
+Below that, a red rounded button shape with white text: "PEÇA PELO PORTAL 🍕"
+
+STYLE: Retro illustrated menu, warm and inviting but bold. Think vintage diner meets Brazilian street food. Flat illustration style, no gradients.`,
+    publish:[
+      'Gere a imagem com o prompt acima no ChatGPT ou Adobe Firefly',
+      'Baixe em alta resolução',
+      'No Canva: abra a imagem e substitua os nomes dos sabores pelos seus sabores reais usando uma caixa de texto',
+      'Exporte em 1080x1080 (formato quadrado para feed)',
+      'No Instagram: poste no FEED com a caption abaixo',
+      'Caption: "Escolhe o teu 👇 Todos artesanais, no formato quadrado que é nosso, feitos na hora. Agende pelo link na bio e retire sem fila no recreio! 🍕 #QuadroPizza #UNIVALI #PizzaArtesanal #Cardapio"',
+      'Compartilhe nos Stories após publicar',
+    ],
+  },
+  '2026-5-16':{type:'video',num:3,
+    theme:'POV: você agendou, a fila te olhando',
+    refs:[{url:VR[2],desc:'Referência do vídeo 3'}],
+    roteiro:`Vídeo de humor e situação real. POV (ponto de vista) de quem agendou e está passando pela fila sem precisar parar. Deve ser engraçado e ao mesmo tempo convincente.`,
+    cenas:[
+      'Cena 1 (2s): Texto na tela: "POV: você agendou sua Quadrô com antecedência"',
+      'Cena 2 (5s): Câmera passeando pela fila de pessoas esperando — walking shot tranquilo',
+      'Cena 3 (3s): Você chega no balcão e a pizza já está lá com seu nome. Pegue com confiança.',
+      'Cena 4 (3s): Mordida satisfeita enquanto os outros ainda estão na fila ao fundo (desfocados)',
+      'Cena 5 (2s): Olhar para câmera + texto: "Agende pelo link na bio 😎"',
+    ],
+    legenda:`Essa sensação não tem preço 😎🍕 Agende pelo link na bio e passe direto — sem fila, sem pressa, sem perder o recreio. #QuadroPizza #UNIVALI #Agendamento #SemFila`,
+    audio:'Música confiante e cool — buscar "swagger confident walk" no CapCut ou som viral da semana',
+  },
+  '2026-5-19':{type:'video',num:4,
+    theme:'O recreio é 15 min — agende ou passa fome',
+    refs:[{url:VR[3],desc:'Referência do vídeo 4'}],
+    roteiro:`Vídeo de humor com urgência real. Mostrar a correria do intervalo e a solução: agendar. Tom engraçado mas com CTA incisivo no final.`,
+    cenas:[
+      'Cena 1 (2s): Texto na tela em vermelho: "RECREIO: 15 MINUTOS"',
+      'Cena 2 (3s): Fila grande no intervalo — câmera documental, sem encenação',
+      'Cena 3 (4s): Relógio ou cronômetro passando rápido (use o time-lapse)',
+      'Cena 4 (3s): Olhar para câmera: "Você TEM 15 minutos. Não dá pra ficar na fila."',
+      'Cena 5 (3s): Mostrar o portal no celular com dedo rolando e selecionando horário',
+      'Cena 6 (2s): Texto: "Agendou? Chega, pega e aproveita o recreio 🍕"',
+    ],
+    legenda:`15 minutos de recreio não dá pra desperdiçar na fila 😤 Agende pelo link na bio e retire na hora que você escolher. É sério. 🍕 #QuadroPizza #UNIVALI #Recreio #PizzaSemFila`,
+    audio:'Música acelerada estilo "correria" — buscar "rush timer countdown" no CapCut',
+  },
+  '2026-5-20':{type:'card',num:3,
+    theme:'Como funciona o agendamento — passo a passo',
+    prompt:`Create a bold instructional infographic card (1080x1080px) for "Quadrô Pizza."
+
+BACKGROUND: Strong red (#CC1F1F) filling the entire card. Cream (#FFF8F0) checkered pattern border on all four sides (like a racing flag or pizza tablecloth).
+
+TOP: Title text in large yellow (#F5C842) condensed bold font: "COMO PEDIR SEM FILA" — all caps, centered, taking up top 20%.
+
+CENTER: Three horizontal steps, each in its own rounded white rectangle card with a drop shadow, stacked vertically with small yellow arrows between them:
+
+STEP 1 card: Large yellow circle with number "1" on the left. Phone icon (outline). Text in black bold: "ACESSE O PORTAL" — subtext in gray small: "Link na bio do Instagram ou no WhatsApp"
+
+STEP 2 card: Large yellow circle with number "2" on the left. Pizza slice icon (outline). Text: "ESCOLHA SEU SABOR E HORÁRIO" — subtext: "Você decide quando quer retirar"
+
+STEP 3 card: Large yellow circle with number "3" on the left. Checkmark icon. Text: "RETIRE SEM FILA!" — subtext: "Sua pizza fica separada no seu nome"
+
+BOTTOM: Cartoon mascot (square pizza slice with sunglasses, thumbs up) peeking from bottom-right corner. Red strip at very bottom with white text: "É GRÁTIS AGENDAR — COMECE AGORA!"
+
+STYLE: Instructional but bold and energetic. Very readable. Retro street food energy.`,
+    publish:[
+      'Gere a imagem com o prompt no ChatGPT ou Adobe Firefly',
+      'Baixe em 1080x1080',
+      'Se precisar ajustar o link no card: edite no Canva',
+      'No Instagram: poste no FEED',
+      'Caption: "Mais simples do que parece 👆 3 passos e sua pizza tá garantida sem fila. Acessa o link na bio, escolhe o sabor, escolhe o horário — fim. 🍕 #QuadroPizza #ComoAgendar #UNIVALI #PizzaArtesanal"',
+      'IMPORTANTE: neste post adicione o link do portal na BIO do Instagram antes de publicar',
+      'Compartilhe nos Stories com texto por cima: "Você sabe fazer isso? 👆 Link na bio!"',
+    ],
+  },
+  '2026-5-21':{type:'video',num:5,
+    theme:'Reação real de aluno pegando a pizza',
+    refs:[{url:VR[4],desc:'Referência do vídeo 5'}],
+    roteiro:`Peça permissão para filmar um cliente recebendo o pedido. A reação deve ser 100% real e espontânea — não ensaiada. Faça uma pergunta simples enquanto filma.`,
+    cenas:[
+      'Cena 1 (2s): "Posso te gravar recebendo sua pizza?" — confirme em câmera rapidamente',
+      'Cena 2 (3s): Cliente chegando ao balcão — chame pelo nome dele',
+      'Cena 3 (4s): Entregue a pizza e grave a reação ao primeiro olhar',
+      'Cena 4 (5s): Faça a pergunta: "E aí, como foi agendar?" — deixe responder naturalmente',
+      'Cena 5 (2s): Texto na tela sobre o vídeo: "Agende pelo link na bio 🍕"',
+    ],
+    legenda:`A reação fala por si 😍🍕 É assim toda vez que alguém prova pela primeira vez. Agende pelo link na bio e descubra você mesmo! #QuadroPizza #UNIVALI #Testemunhal #PizzaArtesanal`,
+    audio:'Música suave e feliz de fundo — deixe o áudio original da reação no primeiro plano',
+  },
+  '2026-5-22':{type:'card',num:4,cau:true,
+    theme:'Entrega para alunos do CAU até 5º ano',
+    prompt:`Create a warm and fun social media card (1080x1080px) for "Quadrô Pizza" announcing pizza delivery directly to classrooms for young students at UNIVALI's CAU school (children up to 5th grade / ~10 years old).
+
+BACKGROUND: Warm red (#CC1F1F) with cream (#FFF8F0) checkered border. The overall feel should be slightly warmer and more welcoming than usual Quadrô content — same brand, but friendlier energy.
+
+TOP: A cheerful cartoon version of the Quadrô Pizza mascot (square pizza slice with sunglasses) wearing a small delivery backpack and waving. The mascot looks like it's walking through a school hallway.
+
+CENTER HEADLINE: Large white bold text: "A PIZZA VAI ATÉ A SALA DE AULA!" — two lines, big and clear.
+
+BELOW HEADLINE: Three icon+text rows in rounded white boxes:
+Row 1: 🏫 backpack icon — "Informe o Bloco" in black bold
+Row 2: 🚪 door icon — "Informe o Número da Sala" in black bold  
+Row 3: 🎓 graduation cap icon — "Informe o Ano da Turma (até o 5º ano)" in black bold
+
+BOTTOM: Yellow (#F5C842) strip with red text: "Peça pelo portal → a gente entrega na sala! 🍕"
+
+SMALL PRINT at very bottom: White tiny text: "Disponível para alunos do CAU UNIVALI até o 5º ano"
+
+STYLE: Same Quadrô boldness but with a warmer, more family-friendly energy. Fun and reassuring for parents.`,
+    publish:[
+      'Gere a imagem com o prompt no ChatGPT ou Adobe Firefly',
+      'Baixe em 1080x1080',
+      'No Instagram: poste no FEED',
+      'Caption: "Pai, mãe — a Quadrô Pizza chega na sala de aula! 🎒🍕 Pedido pelo portal, é só informar o bloco, a sala e o ano da turma (disponível para o CAU até o 5º ano). A pizza chega quentinha na hora do recreio. Link na bio! #QuadroPizza #CAU #UNIVALI #PizzaNaEscola #MamaeFiel"',
+      'TAG: marque @univali_oficial se possível',
+      'Compartilhe nos Stories com texto: "🎒 ALUNOS DO CAU! A pizza vai até a sala. Link na bio pra pedir!"',
+    ],
+  },
+  '2026-5-23':{type:'video',num:6,
+    theme:'Do zero à pizza pronta — processo completo',
+    refs:[{url:VR[5],desc:'Referência do vídeo 6'}],
+    roteiro:`Vídeo satisfying do processo completo. Sem falar — só mostrar. Edição rápida com cortes no ritmo da música. Deve passar a sensação de qualidade artesanal.`,
+    cenas:[
+      'Cena 1 (2s): Câmera de cima — ingredientes organizados lado a lado antes de começar',
+      'Cena 2 (3s): Massa sendo aberta/preparada — câmera bem próxima',
+      'Cena 3 (3s): Molho sendo espalhado em movimento circular — câmera de cima',
+      'Cena 4 (3s): Queijo sendo colocado — câmera lateral, mostre a textura',
+      'Cena 5 (2s): Pizza entrando no forno — câmera na frente do forno',
+      'Cena 6 (3s): Pizza saindo dourada e perfeita — close extremo',
+      'Cena 7 (2s): Texto: "Feita na hora. Pra você. 🍕 — Agende pelo link na bio"',
+    ],
+    legenda:`Do zero até a sua mão 🍕✨ Artesanal de verdade — cada pizza feita na hora. Agende pelo link na bio e garanta a sua sem fila! #QuadroPizza #UNIVALI #Artesanal #PizzaDoZero #Satisfying`,
+    audio:'Música lo-fi relaxante e satisfying — buscar "satisfying cooking lo-fi" no CapCut',
+  },
+  '2026-5-26':{type:'video',num:7,
+    theme:'Antes/depois: fila caótica vs agendado e tranquilo',
+    refs:[{url:VR[6],desc:'Referência do vídeo 7'}],
+    roteiro:`Vídeo de comparação direta. Tela dividida ou dois clipes em sequência: o caos da fila vs a tranquilidade de quem agendou. Deve ser engraçado e convincente.`,
+    cenas:[
+      'PARTE 1 — "Sem agendamento": Texto vermelho na tela: "❌ Sem agendamento"',
+      'Mostrar fila grande, pessoas impacientes, olhando o celular, recreio acabando',
+      'PARTE 2 — "Com agendamento": Texto verde: "✅ Com agendamento"',
+      'Você chega, pega a pizza pelo nome, senta tranquilo, come com calma',
+      'FINAL: Tela cheia com texto: "A escolha é sua. Agende pelo link na bio 🍕"',
+    ],
+    legenda:`Dois caminhos. Você escolhe qual 👆😂 O agendamento é grátis, rápido e salva seu recreio. Link na bio! #QuadroPizza #UNIVALI #AntesDepois #PizzaSemFila #Recreio`,
+    audio:'PARTE 1: som de caos/urgência. PARTE 2: música relaxante. Buscar "before after contrast" no CapCut',
+  },
+  '2026-5-27':{type:'card',num:5,
+    theme:'Combo da semana — oferta especial',
+    prompt:`Create a bold promotional offer card (1080x1080px) for "Quadrô Pizza."
+
+BACKGROUND: Very dark charcoal/almost black (#1a1a1a) background with bold diagonal yellow (#F5C842) stripes pattern running at 45 degrees — like a hazard tape or sale banner.
+
+CENTER: Two square pizza slices side by side, illustrated in retro cartoon style, with melted cheese dramatically dripping down from both. The slices overlap slightly in the middle.
+
+MAIN TEXT overlaid on top of the slices:
+Line 1: "LEVA DOIS" — massive red (#CC1F1F) outlined bold italic text, outlined in white
+Line 2: "PAGA MENOS" — massive white bold italic text with thin black outline
+
+PRICE TAG: A yellow starburst/explosion shape in the top-right area with text inside: "COMBO" in red bold.
+
+TOP-LEFT CORNER: The Quadrô Pizza cartoon mascot (pizza slice with sunglasses) winking and pointing to the price tag.
+
+BOTTOM STRIP: Full-width black strip with yellow text: "DISPONÍVEL NO PORTAL DE PEDIDOS — LINK NA BIO 🍕"
+
+STYLE: High energy sale poster. Retro 90s promotional flyer energy. Maximum contrast. Bold and loud.`,
+    publish:[
+      'Gere a imagem com o prompt no ChatGPT ou Adobe Firefly',
+      'Abra no Canva e adicione o preço real do combo em cima da imagem (área do price tag)',
+      'Baixe em 1080x1080',
+      'No Instagram: poste no FEED',
+      'Caption: "Combo disponível só essa semana 🍕🍕 [DESCREVA O COMBO E O PREÇO AQUI] — Agende pelo link na bio e retire sem fila no recreio! A oferta acaba quando acabar 😏 #QuadroPizza #Combo #UNIVALI #OfertaRelampago"',
+      'Compartilhe nos Stories com contagem regressiva: adicione o sticker de "Contagem regressiva" para criar urgência',
+    ],
+  },
+  '2026-5-28':{type:'video',num:8,
+    theme:'Você avaliou e ganhou desconto — mostra o fluxo',
+    refs:[{url:VR[7],desc:'Referência do vídeo 8'}],
+    roteiro:`Tutorial rápido mostrando que quem avalia ganha desconto. Mostre o fluxo no celular de forma simples. Tom de "você sabia que?"`,
+    cenas:[
+      'Cena 1 (3s): Olhar para câmera: "Você sabia que depois de comprar, você pode ganhar desconto?"',
+      'Cena 2 (4s): Mostrar a tela do portal com a seção de avaliação — dedo apontando',
+      'Cena 3 (3s): Fingir receber a mensagem do WhatsApp com o cupom — mostrar a tela',
+      'Cena 4 (3s): "É simples: pediu → avaliou → ganhou [X]% off na próxima. Link na bio pra começar!"',
+      'Cena 5 (2s): Texto na tela: "Primeiro pedido → agende agora 🍕"',
+    ],
+    legenda:`Você não sabia disso 👀 Avalie seu pedido e ganhe ${getD()}% de desconto no próximo. É automático. Começa pelo link na bio! 🍕 #QuadroPizza #UNIVALI #Desconto #Fidelidade`,
+    audio:'Música levinha de "descoberta" — buscar "fun reveal" no CapCut',
+  },
+  '2026-5-29':{type:'card',num:6,
+    theme:'Localização — onde encontrar a Quadrô',
+    prompt:`Create a location announcement card (1080x1080px) for "Quadrô Pizza" at UNIVALI university.
+
+BACKGROUND: Bold red (#CC1F1F) with cream (#FFF8F0) checkered border on left and right sides.
+
+TOP: The Quadrô Pizza cartoon mascot (square pizza slice with sunglasses) — drawn as if it's a friendly guide, standing and pointing downward with one arm, looking directly at the viewer.
+
+CENTER: Big white bold text: "ONDE ENCONTRAR" on line 1, "A GENTE" on line 2.
+
+BELOW — Two info rows in rounded black boxes:
+Row 1: Large map pin icon (📍) in yellow + white text: "Ao lado do Teatro da UNIVALI" + smaller text below: "Bloco C2"
+Row 2: Large clock icon (⏰) in yellow + white text: "Nos horários do intervalo" + smaller text: "Seg a Sex"
+
+BOTTOM STRIP: Black bar, full width. Yellow text: "PEÇA ONLINE E RETIRE SEM FILA →" with a small arrow.
+
+SMALL TEXT at very bottom on red: White tiny text: "Agendamento disponível no portal — link na bio"
+
+STYLE: Direct, clear, bold. This is a utility card — must be immediately readable. No clutter.`,
+    publish:[
+      'Gere a imagem com o prompt no ChatGPT ou Adobe Firefly',
+      'Baixe em 1080x1080',
+      'No Instagram: poste no FEED',
+      'Caption: "Você que ainda não sabe onde fica 📍 Ao lado do Teatro da UNIVALI — Bloco C2. Funcionamos nos horários de intervalo, Seg a Sex. E você ainda pode AGENDAR pelo portal e pegar sem fila. Link na bio! 🍕 #QuadroPizza #UNIVALI #Localização #OndeFica"',
+      'Compartilhe nos Stories com: "SALVA ESSE POST 📌 — você vai precisar saber onde fica!"',
+    ],
+  },
+  '2026-5-30':{type:'video',num:9,
+    theme:'Encerramento de maio — agradecimento e teaser',
+    refs:[{url:VR[8],desc:'Referência do vídeo 9'}],
+    roteiro:`Vídeo de encerramento do mês. Tom de gratidão genuína + curiosidade para o próximo período. Pode ser mais pessoal e menos editado — autenticidade conta mais aqui.`,
+    cenas:[
+      'Cena 1 (3s): Pizza pronta em destaque — câmera lenta, iluminação boa',
+      'Cena 2 (5s): Fale direto para câmera: "Maio foi incrível graças a vocês. Obrigado por cada pedido, cada avaliação, cada mensagem."',
+      'Cena 3 (3s): "Junho vem aí e a Quadrô vem com novidades — fica de olho no perfil."',
+      'Cena 4 (3s): "Ainda dá pra agendar hoje — link na bio. A gente te espera 🍕"',
+      'Cena 5 (2s): Texto: "Até junho 👋🍕 — @quadropizza"',
+    ],
+    legenda:`Maio foi só o começo 🍕🔥 Obrigado por fazer parte disso. Junho vem com novidades — segue o perfil pra não perder nada. Ainda dá pra agendar hoje! Link na bio. #QuadroPizza #UNIVALI #ObrigadoMaio`,
+    audio:'Música emocional/inspiradora suave — buscar "thankful emotional" no CapCut',
+  },
 };
 
-const VIDEO_DAYS = [1,3,5]; // Seg, Qua, Sex
-const CARD_DAYS  = [2,4];   // Ter, Qui
+// ── STORY DATA ─────────────────────────────────────────────
+// Multiple stories per day — the obrigatório + one specific
+const STORIES={
+  1:[
+    {hl:'🍕 AGENDE AGORA E RETIRE SEM FILA NO RECREIO',tipo:'foto',
+     caption:`Já abriu o portal? 🔗 Acesse o link na bio, escolhe o sabor e o horário — sua pizza fica separada no seu nome. Sem esperar. Sem fila. Só chegar e pegar. 🍕`,
+     passos:['Tire uma foto da pizza pronta ou da bancada organizada','Abra o Instagram → Stories → selecione a foto','Escreva em cima: "🍕 AGENDE AGORA E RETIRE SEM FILA NO RECREIO"','Adicione o sticker de link → https://quadropizza.github.io/quadro-pizza/','Publique']},
+    {hl:'🔥 SEMANA NOVA. VÍCIO VELHO. AGENDE O SEU!',tipo:'foto',
+     caption:`Começo de semana com a Quadrô é começo de semana garantido 😎 Agenda logo antes de lotar!`,
+     passos:['Foto da preparação de manhã — forno ligando, ingredientes, bancada','Escreva o texto em amarelo bold por cima','Sticker de link → https://quadropizza.github.io/quadro-pizza/','Publique']},
+  ],
+  2:[
+    {hl:'⏰ VOCÊ TEM 15 MINUTOS DE RECREIO. USA BEM.',tipo:'foto',
+     caption:`15 minutos. Pra comer, respirar e voltar. Não dá pra gastar tudo na fila. Agenda e chega direto! 🍕 Link na bio.`,
+     passos:['Foto do relógio ou do corredor cheio — qualquer imagem que transmita pressa','Escreva "VOCÊ TEM 15 MIN DE RECREIO" em vermelho grande por cima','Adicione o sticker de link → https://quadropizza.github.io/quadro-pizza/','Publique']},
+    {hl:'👀 SABOR DO DIA REVELADO — CORRE PRA GARANTIR O SEU',tipo:'foto',
+     caption:`Hoje tem [SABOR DO DIA] 🍕 Quantidade limitada. Agenda pelo link na bio antes de acabar!`,
+     passos:['Close EXTREMO na pizza do sabor especial de hoje — bem pertinho do queijo','Escreva o nome do sabor em amarelo grande por cima','Adicione "🍕 ÚLTIMAS UNIDADES — agenda antes que acabe!" embaixo','Sticker de link → https://quadropizza.github.io/quadro-pizza/','Publique']},
+  ],
+  3:[
+    {hl:'🚨 NÃO FIQUE NA FILA. AGENDE AGORA PELO LINK NA BIO.',tipo:'ai',
+     caption:`Enquanto você lê isso, já dá pra agendar. Acessa o link na bio, escolhe sabor e horário — demora menos de 1 minuto. Recreio salvo 🍕`,
+     prompt:`Create a bold urgent Instagram story (1080x1920px) for Quadrô Pizza.
 
-// ─── PROMPTS ──────────────────────────────────────────────
-const PROMPTS = {
-  1: `Create a bold vertical social media card (1080x1350px) for a Brazilian square pizza brand called "Quadrô Pizza". Style: retro-bold, red background (#CC1F1F), cream checkered border pattern on sides. Top text in large yellow bold font: "O RECREIO É CURTO". Center text in huge white bold italic font: "AGENDE SUA PIZZA". Bottom accent: melting cheese drip graphic in yellow. Include a pizza slice mascot wearing sunglasses giving thumbs up (retro cartoon style). Bottom text: "Sem fila. Sem estresse." in white bold.`,
-  2: `Design a retro-style square pizza menu card (1080x1080px) for "Quadrô Pizza". Cream/off-white background with red checkered pattern borders. Top: "NOSSOS SABORES" in bold yellow outlined font. Center: 4 square pizza slices illustrated in retro cartoon style, each with different toppings (pepperoni, margherita, portuguesa, calabresa). Each slice has a yellow label tag. Bottom: "Artesanal. Formato único. Preço acessível." in black bold. Retro diner meets Brazilian street food.`,
-  3: `Create an infographic-style social media card (1080x1080px) for "Quadrô Pizza". Bold red background (#CC1F1F), cream checkered borders. Title: "COMO PEDIR ONLINE" in large yellow bold font. Center: 3 numbered steps in bold white text — Step 1: "Acesse o portal" phone icon, Step 2: "Escolha seu sabor e horário" pizza icon, Step 3: "Retire sem fila no recreio" checkmark icon. Retro cartoon mascot (pizza slice with sunglasses) pointing at the steps.`,
-  4: `Create a fun friendly social media card (1080x1080px) for "Quadrô Pizza" targeting parents of children at UNIVALI CAU school up to 5th grade. Red background (#CC1F1F), cream checkered borders. Cartoon pizza mascot waving happily. Headline: "CHEGOU NA SALA DE AULA!" in large yellow bold. Below: 3 icons — backpack "Informe o bloco", door "Informe a sala", number "Informe o ano/turma". Bottom strip: "Peça no portal e a gente entrega!" in yellow on black.`,
-  5: `Bold promotional card (1080x1080px) for "Quadrô Pizza". Dark background with yellow diagonal stripes. Center: two square pizza slices side by side with melting cheese. Text: "LEVA DOIS" in red bold outline, "PAGA MENOS" in white bold. Yellow price tag sticker. Cartoon mascot winking top corner. Bottom: "Combo disponível no portal de pedidos" in white. Retro 90s street food poster energy.`,
-  6: `Location card (1080x1080px) for "Quadrô Pizza" at UNIVALI university. Red background (#CC1F1F), cream checkered side borders. Cartoon mascot pointing downward. Center: "ONDE ENCONTRAR A GENTE" in white bold. Map pin + "Ao lado do Teatro da UNIVALI — Bloco C2" in yellow bold. Clock + "Nos horários do intervalo" in white. Bottom black strip: "Peça online e retire sem fila" in yellow.`,
+BACKGROUND: Bold red (#CC1F1F) full bleed. Cream checkered thin border on sides.
+
+TOP THIRD: A giant countdown timer graphic showing "15:00" in bright yellow (#F5C842) outlined condensed font — like an old scoreboard. Above it in small white text: "DURAÇÃO DO RECREIO"
+
+CENTER: Two contrasting images side by side (illustrated icons, not photos):
+LEFT side (red tint): stick figure in a long line, stressed emoji face above, text "SEM AGENDAMENTO"
+RIGHT side (green tint): stick figure walking straight to counter, happy emoji, text "COM AGENDAMENTO"
+
+BOTTOM THIRD: Large white bold text: "NÃO FIQUE NA FILA" on line 1, "AGENDE AGORA" on line 2 in yellow.
+
+Very bottom: Black strip with white text: "Link na bio → peça agora"
+
+STYLE: Maximum urgency. Red dominant. Bold contrast. No subtlety.`,
+     passos:['Gere a imagem com o prompt acima no ChatGPT','Baixe e abra o Instagram Stories','Adicione a imagem como fundo','Coloque o sticker de link → https://quadropizza.github.io/quadro-pizza/ — escreva "AGENDAR AGORA" no sticker','Publique']},
+    {hl:'📲 3 PASSOS PRA NÃO FICAR SEM PIZZA NO RECREIO',tipo:'ai',
+     caption:`1️⃣ Acessa o portal 2️⃣ Escolhe o sabor e horário 3️⃣ Chega e pega — sem fila. Link na bio!`,
+     prompt:`Create a step-by-step Instagram story (1080x1920px) for Quadrô Pizza.
+
+BACKGROUND: Dark charcoal (#1a1a1a) with subtle red (#CC1F1F) checkered pattern fading at edges.
+
+TOP: Yellow bold text "3 PASSOS" large, then smaller white text "pra não ficar sem pizza no recreio"
+
+CENTER: Three large numbered cards stacked vertically, each card white rounded rectangle with drop shadow:
+Card 1: Big yellow "1" circle left side. Phone icon. Black bold text: "ACESSA O PORTAL" — subtext gray: "Link na bio do Instagram"
+Card 2: Big yellow "2" circle. Pizza icon. Text: "ESCOLHE SABOR + HORÁRIO" — subtext: "Você decide quando retirar"  
+Card 3: Big yellow "3" circle. Checkmark. Text: "CHEGA E PEGA" — subtext: "Sem fila. Sua pizza tá no seu nome."
+
+BOTTOM: Red strip full width. White bold text: "AGENDE AGORA — LINK NA BIO 🍕"
+
+STYLE: Clean instructional but bold. High readability.`,
+     passos:['Gere no ChatGPT com o prompt acima','Adicione ao Stories como imagem de fundo','Sticker de link → https://quadropizza.github.io/quadro-pizza/','Publique']},
+  ],
+  4:[
+    {hl:'🎒 ALUNOS DO CAU: A PIZZA VAI ATÉ A SUA SALA!',tipo:'ai',
+     caption:`Pais e alunos do CAU até o 5º ano 👋 A Quadrô entrega na sala de aula! É só pedir pelo portal e informar: bloco + sala + ano da turma. Link na bio! 🍕🎒`,
+     prompt:`Create a warm and exciting Instagram story (1080x1920px) for Quadrô Pizza announcing classroom pizza delivery for young students.
+
+BACKGROUND: Warm red (#CC1F1F) with cream cream checkered border, but add some small school-themed doodles (pencil, ruler, star) in cream color scattered subtly in the background.
+
+TOP: The Quadrô Pizza cartoon mascot wearing a delivery backpack and a graduation cap at the same time, looking excited and waving. Large enough to take up top 35% of the story.
+
+CENTER HEADLINE: Big white bold text:
+"A PIZZA" line 1
+"VAI ATÉ" line 2  
+"A SUA SALA!" line 3
+Each line slightly larger than the previous.
+
+BELOW: Yellow rounded box with black text listing what to provide:
+"📌 Bloco | 🚪 Sala | 🎓 Ano da turma"
+
+Small text below: "Disponível para o CAU UNIVALI — até o 5º ano"
+
+BOTTOM: Black strip. Yellow text: "PEÇA PELO PORTAL — LINK NA BIO 🎒🍕"
+
+STYLE: Warm and fun. More welcoming than usual Quadrô — family energy.`,
+     passos:['Gere no ChatGPT com o prompt acima','Adicione ao Stories','Sticker de link → https://quadropizza.github.io/quadro-pizza/','Publique — se possível no horário em que pais estão mais ativos (7h-8h da manhã)']},
+    {hl:'🍕 AGENDE AGORA — SUA PIZZA SEPARADA NO SEU NOME',tipo:'foto',
+     caption:`Reclame toda vez que o recreio acaba antes da pizza? A solução é uma só: AGENDA. Link na bio 🍕`,
+     passos:['Foto de qualquer pizza pronta ou do balcão','Texto em amarelo: "AGENDE AGORA"','Sticker de link → https://quadropizza.github.io/quadro-pizza/','Publique']},
+  ],
+  5:[
+    {hl:'🍕 ÚLTIMA CHANCE HOJE — AGENDE ANTES DO RECREIO',tipo:'foto',
+     caption:`Sexta tem recreio também 😎 Fecha a semana com a Quadrô. Agenda agora pelo link na bio — últimos horários disponíveis hoje! 🍕`,
+     passos:['Foto da pizza pronta ou de alguém comendo (peça permissão)','Texto: "ÚLTIMA CHANCE HOJE 🍕" em amarelo grande','Sticker de link → https://quadropizza.github.io/quadro-pizza/ com "Agendar agora"','Publique']},
+    {hl:'😎 QUEM AGENDOU JÁ TÁ COMENDO. E VOCÊ?',tipo:'foto',
+     caption:`Enquanto você lê isso, quem agendou já tá aproveitando o recreio com a Quadrô 🍕 Ainda dá tempo — link na bio!`,
+     passos:['Foto da fila ou da entrega acontecendo','Texto: "QUEM AGENDOU JÁ TÁ COMENDO. E VOCÊ?" em vermelho grande','Sticker de link → https://quadropizza.github.io/quadro-pizza/','Publique']},
+  ],
 };
 
-// Story prompts por dia da semana
-const STORY_PROMPTS = {
-  3: `Create a bold Instagram story (1080x1920px) for Quadrô Pizza. Red background (#CC1F1F), cream checkered borders. Large yellow bold text: "O RECREIO TEM 15 MIN". Center: giant countdown clock illustration. Below in huge white bold: "QUEM AGENDOU JÁ TÁ COMENDO". Pizza mascot running at bottom. Black strip: "Agende agora pelo portal" in yellow. Retro bold, high urgency.`,
-  4: `Create a fun Instagram story (1080x1920px) for Quadrô Pizza targeting parents of young students at CAU school UNIVALI (up to 5th grade). Warm red background (#CC1F1F), cream checkered borders. Happy pizza mascot carrying pizza box. Large white bold text: "A PIZZA VAI ATÉ A SALA DO SEU FILHO!" Below in yellow bold: "CAU até o 5º ano — informe bloco, sala e ano". Bottom CTA in black: "Fazer pedido agora" in yellow.`,
-  5: null, // foto
-  1: null, // foto
-  2: null, // foto
-};
+// ── DATE NAV ────────────────────────────────────────────────
+const START=new Date(2026,4,11);
+const END=new Date(2026,4,31);
 
-const STORY_DATA = {
-  0: null,
-  1: { hl:'🔥 SEMANA NOVA, VÍCIO VELHO. JÁ AGENDOU?', tipo:'foto', inst:'Foto da preparação de manhã — bancada, forno ligando, massa sendo aberta.', cta:'Link sticker: "Agendar pedido"' },
-  2: { hl:'👀 SABOR DO DIA REVELADO — CORRE PRA PEDIR', tipo:'foto', inst:'Close na pizza do sabor especial. Escreva o nome do sabor em amarelo bold por cima no Instagram.', cta:'Escreva o nome do sabor + "🍕 Últimas unidades"' },
-  3: { hl:'⏰ 15 MIN DE RECREIO. QUEM AGENDOU JÁ TÁ COMENDO.', tipo:'ai', inst:'Story gerado pela IA — copie o prompt abaixo, gere no ChatGPT e publique.', cta:'Adicionar sticker de link após gerar' },
-  4: { hl:'🎒 ALUNOS DO CAU: A PIZZA VAI ATÉ VOCÊ!', tipo:'ai', inst:'Story especial para pais de alunos do CAU até 5º ano. Copie o prompt abaixo.', cta:'Adicionar sticker de link após gerar' },
-  5: { hl:'😎 FECHA A SEMANA COM GOSTO. ÚLTIMA CHANCE HOJE!', tipo:'foto', inst:'Foto da pizza sendo entregue ou aluno satisfeito (peça permissão).', cta:'"Última chamada hoje 🍕" + link do portal' },
-  6: null,
-};
-
-// WA messages
-function waBoasVindas(){
-  return `🍕 *Eii, bem-vindo à Quadrô Pizza!*\n\nA pizza quadrada artesanal que virou vício na UNIVALI 😎✨\n\n👇 Faça seu pedido online agora e *retire sem fila no recreio:*\n🔗 ${getLink()}\n\n📍 Ao lado do Teatro da UNIVALI — Bloco C2\n⏰ Disponível nos horários de intervalo\n\n_Escolha uma opção:_\n*1* — Ver sabores 🍕\n*2* — Ver combos 💰\n*3* — Como funciona o agendamento 📲\n*4* — Entrega para alunos do CAU 🎒\n*5* — Horário e localização 📍\n*6* — Falar com a gente 💬`;
-}
-function waCau(){
-  return `🎒 *Entrega para alunos do CAU até o 5º ano!* 🍕\n\nTemos uma opção especial para os pequenos da UNIVALI 😍\n\nNa hora de fazer o pedido pelo portal, informe:\n📌 *Bloco* da sala\n🚪 *Número da sala*\n🎓 *Ano da turma* (disponível até o 5º ano)\n\nE a pizza chega certinha na hora do intervalo! 🎉\n\n👇 Faça o pedido agora:\n🔗 ${getLink()}\n\nQualquer dúvida é só chamar! 💛`;
-}
-function waPosVenda(){
-  return `Eii, [Nome]! 🍕😎\n\nEspero que tenha curtido sua Quadrô hoje!\n\n⭐ Você recebeu um link de avaliação no portal — leva menos de 1 minuto e nos ajuda demais!\n\n📲 Ainda não segue a gente no Instagram?\n👉 @quadropizza\n\nLá a gente posta sabores do dia, ofertas e novidades que só quem segue fica sabendo 👀`;
-}
-function waCupom(){
-  const d = getDisc();
-  return `🎉 *Valeu por avaliar, [Nome]!*\n\nSua opinião é muito importante pra gente 💛\n\nComo agradecimento, você ganhou:\n\n🏷️ *${d}% de desconto no próximo pedido*\n📌 Código: *QUADRO${d}*\n📅 Válido por 7 dias\n\n👇 Use no portal na hora de fechar:\n🔗 ${getLink()}\n\nAté a próxima! 🍕😎`;
-}
-function waAgendamento(){
-  return `📲 *Como funciona o agendamento?*\n\nÉ super simples!\n\n*1️⃣* Acesse: 🔗 ${getLink()}\n*2️⃣* Escolha seu sabor 🍕\n*3️⃣* Selecione o horário ⏰\n*4️⃣* Finalize — e pronto! ✅\n\n📦 Sua pizza fica no seu nome. Chegue e pegue *sem fila no recreio!*\n\n❓ *Dúvidas:*\n• _Posso escolher o horário?_ Sim! 🕐\n• _Qualquer curso?_ Sim, todos! 🎓\n• _Como sei que ficou pronto?_ Confirmação pelo portal 📲`;
-}
-
-// ─── BUILD PAGE ───────────────────────────────────────────
-function build(){
-  loadConfig();
-  setHeader();
-  const d   = today();
-  const dow = d.getDay();
-  const dk  = `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
-  const cam = CAMPAIGN[dk] || null;
-  const isWeekday = dow >= 1 && dow <= 5;
-
-  // Hero
-  const heroTitle = document.getElementById('hero-title');
-  const heroSub   = document.getElementById('hero-sub');
-  const heroBadges= document.getElementById('hero-badges');
-
-  heroTitle.textContent = DAYS[dow] + ', ' + d.getDate() + ' de ' + MONTHS[d.getMonth()];
-
-  let badges = [];
-  if(cam && cam.type==='video') badges.push('<span class="hbadge hbv">🎬 Vídeo '+cam.num+' hoje</span>');
-  if(cam && cam.type==='card')  badges.push('<span class="hbadge hbc">🖼️ Card '+cam.num+' hoje</span>');
-  if(isWeekday) badges.push('<span class="hbadge hbs">📱 Story obrigatório</span>');
-  if(isWeekday) badges.push('<span class="hbadge hbs">💬 Pós-venda WA</span>');
-  heroBadges.innerHTML = badges.join('');
-
-  if(!isWeekday){
-    heroSub.textContent = 'Fim de semana — descanse! Prepare os vídeos e cards para a semana de segunda.';
-  } else if(cam){
-    heroSub.textContent = cam.theme + ' — ' + cam.desc;
-  } else {
-    heroSub.textContent = 'Dia de operação e stories. Sem vídeo nem card hoje — foque nos agendamentos!';
-  }
-
-  // Build tasks
-  const container = document.getElementById('tasks-container');
-  container.innerHTML = '';
-
-  if(!isWeekday){
-    container.innerHTML = `<div class="tip" style="margin-top:0"><strong>🌟 Fim de semana!</strong> Aproveite para gravar os vídeos da próxima semana com calma e gerar os cards com IA antes de segunda.</div>`;
-    return;
-  }
-
-  // ── BLOCO 1: MANHÃ ──
-  const manha = makeTaskCard('red','☀️','MANHÃ — antes de abrir','manha', [
-    { txt:'📸 Tirar 1 foto da pizza, bancada ou preparação do dia', detail: makeNote('Serve qualquer ângulo — pizza pronta, forno ligando, bancada organizada. Esta foto vai no story de hoje.') },
-    { txt:'📱 Postar o story do dia com headline + sticker de link', detail: makeStoryBlock(dow) },
-    { txt:'📋 Ver pedidos agendados no portal para o intervalo de hoje', detail: makeNote(`Acesse o portal → verifique nome, sabor e horário de cada pedido agendado.`, 'blue') },
-    { txt:'🍕 Separar os pedidos agendados com o nome de cada cliente', detail: makeNote('Deixe separado antes do intervalo. Quem agendou retira na frente, sem fila.') },
-  ]);
-  container.appendChild(manha);
-
-  // ── BLOCO 2: CONTEÚDO DO DIA ──
-  if(cam){
-    let detail = '';
-    if(cam.type === 'video'){
-      detail = `<div class="note note-blue" style="margin-bottom:8px">🎬 <strong>Vídeo ${cam.num}:</strong> ${cam.desc}</div>
-      <div class="note">💡 Dica: grave de manhã antes de abrir ou no horário que tiver mais movimento. Edite no CapCut e publique no TikTok + Reels no mesmo dia.</div>`;
-    } else {
-      const promptTxt = PROMPTS[cam.num] || 'Prompt não encontrado.';
-      detail = `<div class="note note-blue" style="margin-bottom:8px">🖼️ <strong>Card ${cam.num}:</strong> ${cam.desc}</div>
-      <div style="font-size:12px;color:var(--gray);margin-bottom:6px">📌 Cole o prompt abaixo no <strong>ChatGPT</strong> ou <strong>Adobe Firefly</strong> para gerar o card:</div>
-      ${makePrompt(promptTxt, 'p_cam')}
-      <div class="note note-green" style="margin-top:8px">✅ Após gerar: ajuste textos no Canva se precisar → publique no feed (1080x1080) → compartilhe nos stories também!</div>
-      ${cam.cau ? `<div class="note note-purple" style="margin-top:8px">🎒 <strong>Card especial CAU:</strong> para pais e alunos do CAU até 5º ano. Mencione que o pedido precisa de bloco, sala e ano da turma.</div>` : ''}`;
+function buildDateNav(){
+  const nav=document.getElementById('date-nav');
+  nav.innerHTML='';
+  let d=new Date(START);
+  while(d<=END){
+    const dow=d.getDay();
+    if(dow>=1&&dow<=5){
+      const btn=document.createElement('button');
+      const isT=dkey(d)===dkey(todayD());
+      const isA=dkey(d)===dkey(activeDate);
+      btn.className='dnav-btn'+(isT?' tod':'')+(isA?' on':'');
+      const dd=new Date(d);
+      const dn=['','Seg','Ter','Qua','Qui','Sex'];
+      btn.innerHTML=`<span style="display:block;font-size:9px;opacity:.65">${dn[dow]}</span>${d.getDate()}/${d.getMonth()+1}${isT?'<span style="color:var(--yel)"> ●</span>':''}`;
+      btn.onclick=()=>{activeDate=dd;buildDateNav();renderDay()};
+      nav.appendChild(btn);
     }
-    const conteudo = makeTaskCard(cam.type==='video'?'black':'yellow',
-      cam.type==='video'?'🎬':'🖼️',
-      cam.type==='video'?`VÍDEO ${cam.num} — GRAVAR E PUBLICAR`:`CARD ${cam.num} — GERAR E PUBLICAR`,
-      'conteudo', [
-        { txt: cam.type==='video' ? `Gravar: "${cam.theme}"` : `Gerar com IA: "${cam.theme}"`, detail },
-        { txt: cam.type==='video' ? 'Editar no CapCut e publicar no TikTok + Reels' : 'Publicar no feed do Instagram', detail: makeNote('Formato feed: 1080x1080. Reels: vertical 9:16. Publique e compartilhe nos stories!') },
-      ]);
-    container.appendChild(conteudo);
+    d.setDate(d.getDate()+1);
   }
-
-  // ── BLOCO 3: INTERVALO ──
-  const intervalo = makeTaskCard('red','⚡','INTERVALO — na hora da entrega','intervalo', [
-    { txt:'✅ Entregar pedidos agendados primeiro — clientes retiram no nome', detail: makeNote('Quem agendou não precisa esperar na fila. Tenha os pedidos separados e prontos antes do intervalo.') },
-    { txt:'🎒 Enviar entregas do CAU (bloco + sala + ano) antes do sinal', detail: makeNote('Verifique os pedidos CAU com antecedência. Separe por sala para agilizar a entrega.', 'purple') },
-  ]);
-  container.appendChild(intervalo);
-
-  // ── BLOCO 4: PÓS-INTERVALO ──
-  const pos = makeTaskCard('green','🌅','PÓS-INTERVALO','pos', [
-    { txt:'💬 Enviar pós-venda no WhatsApp para quem comprou hoje', detail: `<div style="font-size:12px;color:var(--gray);margin-bottom:6px">Copie e envie para cada cliente do dia:</div>${makeWA(waPosVenda(),'wa_pos')}` },
-    { txt:'⭐ Verificar avaliações no portal e enviar cupons de desconto', detail: `<div style="font-size:12px;color:var(--gray);margin-bottom:6px">Para quem avaliou, envie este cupom:</div>${makeWA(waCupom(),'wa_cup')}` },
-  ]);
-  container.appendChild(pos);
-
-  // ── BLOCO 5: WA AUTOMÁTICO ──
-  const wa = makeTaskCard('blue','💬','WHATSAPP — MENSAGENS PRONTAS','wa', [
-    { txt:'Boas-vindas automática (configurar 1x no WA Business)', detail: `${makeWA(waBoasVindas(),'wa_bv')}` },
-    { txt:'Como funciona o agendamento (opção 3)', detail: `${makeWA(waAgendamento(),'wa_ag')}` },
-    { txt:'Entrega para alunos do CAU (opção 4)', detail: `${makeWA(waCau(),'wa_cau')}` },
-  ]);
-  container.appendChild(wa);
-
-  // ── TIP ──
-  const tip = document.createElement('div');
-  tip.className = 'tip';
-  tip.innerHTML = `<strong>🏆 Regra de ouro:</strong> Em TODO conteúdo — vídeo, card ou story — sempre mencione que dá pra <strong>agendar a retirada</strong>. Quanto mais agendamentos, menos correria no intervalo pra você também! 😎`;
-  container.appendChild(tip);
-
-  // Update progress
-  updateProgress();
 }
 
-// ─── HELPERS ──────────────────────────────────────────────
-function makeNote(txt, color=''){
-  return `<div class="note${color?' note-'+color:''}">${txt}</div>`;
-}
+// ── RENDER DAY ───────────────────────────────────────────────
+function renderDay(){
+  const el=document.getElementById('day-content');
+  const d=activeDate;
+  const dow=d.getDay();
+  const dk=dkey(d);
+  const cam=CAMP[dk]||null;
+  const isT=dk===dkey(todayD());
+  const stories=STORIES[dow]||[];
 
-function makePrompt(txt, id){
-  return `<div class="prompt-inline"><button class="prompt-copy" onclick="cpPrompt(this,'${id}')">Copiar</button><div class="prompt-txt" id="${id}">${txt}</div></div>`;
-}
+  // HERO
+  let tags='';
+  if(cam&&cam.type==='video') tags+=`<span class="htag ht-r">🎬 Vídeo ${cam.num}</span>`;
+  if(cam&&cam.type==='card')  tags+=`<span class="htag ht-y">🖼️ Card ${cam.num}</span>`;
+  if(!cam) tags+=`<span class="htag ht-w">📋 Operação</span>`;
+  tags+=`<span class="htag ht-w">📱 ${stories.length} Storie${stories.length>1?'s':''}</span>`;
 
-function makeWA(txt, id){
-  return `<div class="wa-inline" id="${id}">${txt}</div><button class="wa-copy-btn" onclick="cpWA(this,'${id}')">Copiar mensagem</button>`;
-}
+  const heroSub=cam
+    ?`Tema de hoje: <strong style="color:rgba(255,255,255,.9)">"${cam.theme}"</strong>`
+    :'Dia de operação — portal, stories e agendamentos!';
 
-function makeStoryBlock(dow){
-  const s = STORY_DATA[dow];
-  if(!s) return makeNote('Hoje não é dia de semana — sem story.');
-  
-  let tipo = s.tipo === 'foto' ? `<span class="story-type-tag stt-foto">📸 Foto tirada na hora</span>` : `<span class="story-type-tag stt-ai">🤖 Gerado pela IA</span>`;
-
-  let promptBlock = '';
-  if(s.tipo === 'ai' && STORY_PROMPTS[dow]){
-    promptBlock = `<div style="font-size:12px;color:var(--gray);margin:8px 0 4px">📌 Prompt para gerar o story — cole no ChatGPT:</div>${makePrompt(STORY_PROMPTS[dow],'sp_'+dow)}`;
-  }
-
-  return `<div class="story-mini" style="margin-top:0;box-shadow:none;padding:10px 0">
-    ${tipo}
-    <div class="story-hl">${s.hl}</div>
-    <div class="story-inst">${s.inst}</div>
-    ${promptBlock}
-    <div class="note" style="margin-top:8px">📌 ${s.cta} — sempre adicionar o link do portal como sticker!</div>
+  let h=`<div class="hero">
+    <div class="hero-eye">${DN[dow]}, ${d.getDate()} de ${MN[d.getMonth()]}${isT?' — Hoje':''}</div>
+    <div class="hero-title">O QUE FAZER HOJE</div>
+    <div class="hero-sub">${heroSub}</div>
+    <div class="hero-tags">${tags}</div>
   </div>`;
+
+  if(isT){
+    h+=`<div class="prog"><div class="prog-top"><div class="prog-lbl">Progresso do dia</div><div class="prog-pct" id="pp">0%</div></div><div class="prog-track"><div class="prog-fill" id="pf" style="width:0%"></div></div></div>`;
+  }
+
+  // ── POSTAGEM DO DIA ──────────────────────────────────────
+  if(cam){
+    if(cam.type==='video'){
+      let refHtml=cam.refs.map(r=>`
+        <div class="vref-item">
+          <div class="vref-play">▶️</div>
+          <div class="vref-info">
+            <div class="vref-desc">${r.desc}</div>
+            <a class="vref-url" href="${r.url}" target="_blank">${r.url}</a>
+          </div>
+          <button class="vref-open" onclick="window.open('${r.url}','_blank')">Abrir</button>
+        </div>`).join('');
+
+      h+=bcard('blk','🎬',`VÍDEO ${cam.num} — "${cam.theme}"`,'vid',[
+        {txt:'▶️ Assistir as referências antes de gravar',
+         det:`<div class="vref"><div class="vref-lbl">📌 Referências de estilo — assista antes de gravar:</div>${refHtml}</div>`},
+        {txt:'📲 Publicar no TikTok + Instagram Reels',
+         det:`<div class="steps">
+              <div class="step"><div class="step-num">1</div><div>Edite no CapCut — exporte em 9:16 vertical, qualidade máxima</div></div>
+              <div class="step"><div class="step-num">2</div><div>Publique no TikTok com a legenda: <em style="color:#555">${cam.legenda}</em></div></div>
+              <div class="step"><div class="step-num">3</div><div>Publique no Instagram Reels com a mesma legenda</div></div>
+              <div class="step"><div class="step-num">4</div><div>Compartilhe o Reels nos Stories com sticker "Assistir agora"</div></div>
+              </div>`},
+      ],dk);
+    } else {
+      let pubHtml=cam.publish.map((p,i)=>`<div class="step"><div class="step-num">${i+1}</div><div>${p}</div></div>`).join('');
+      h+=bcard('yel','🖼️',`CARD ${cam.num} — "${cam.theme}"${cam.cau?' 🎒':''}`,'card',[
+        {txt:`🤖 Gerar com IA e baixar`,
+         det:`${cam.cau?`<div class="note pur" style="margin-bottom:8px">🎒 Card para pais/alunos do CAU até o 5º ano — tom mais acolhedor.</div>`:''}
+              <div class="note blu" style="margin-bottom:8px">Cole o prompt abaixo no <strong>ChatGPT</strong> ou <strong>Adobe Firefly</strong>, gere e baixe.</div>
+              <div class="prompt-wrap"><div class="prompt-head">📌 Prompt</div><button class="pcopy" onclick="cpP(this,'pr${cam.num}')">Copiar</button><div class="prompt-txt" id="pr${cam.num}">${cam.prompt}</div></div>`},
+        {txt:`📲 Publicar no Instagram e Stories`,
+         det:`<div class="steps">${pubHtml}</div>`},
+      ],dk);
+    }
+  } else {
+    h+=`<div class="bcard" style="margin-bottom:12px"><div class="bcard-hdr red"><div class="bc-icon">📅</div><div class="bc-title">SEM POSTAGEM ESPECIAL HOJE</div></div><div style="padding:14px 16px;font-size:13px;color:var(--gry);line-height:1.6">Sem vídeo nem card hoje. Foque nos stories, portal e agendamentos!</div></div>`;
+  }
+
+  // ── STORIES DO DIA ──────────────────────────────────────
+  if(stories.length){
+    let storiesRows=stories.map((s,si)=>{
+      let tipoTag=s.tipo==='foto'
+        ?`<span class="story-type-tag st-foto">📸 Foto na hora</span>`
+        :`<span class="story-type-tag st-ai">🤖 Gerar com IA</span>`;
+      let promptBlock='';
+      if(s.tipo==='ai'&&s.prompt){
+        promptBlock=`<div style="font-size:11px;color:var(--gry);margin:8px 0 4px;font-weight:600">Prompt — cole no ChatGPT:</div>
+        <div class="prompt-wrap"><div class="prompt-head">📌 Prompt</div><button class="pcopy" onclick="cpP(this,'sp${dow}_${si}')">Copiar</button><div class="prompt-txt" id="sp${dow}_${si}">${s.prompt}</div></div>`;
+      }
+      let passosHtml=s.passos.map((p,pi)=>`<div class="sstep"><div class="sstep-n">${pi+1}</div><div>${p}</div></div>`).join('');
+      return {
+        txt:`📱 Story: "${s.hl}"`,
+        det:`<div class="story-wrap">
+          ${tipoTag}
+          <div class="story-hl-big">${s.hl}</div>
+          <div class="story-caption"><strong>Texto sobre a foto/arte:</strong><br>${s.caption}</div>
+          ${promptBlock}
+          <div style="font-size:11px;font-weight:700;color:var(--gry);text-transform:uppercase;letter-spacing:.07em;margin:8px 0 5px">Como postar:</div>
+          <div class="story-steps">${passosHtml}</div>
+        </div>`
+      };
+    });
+    h+=bcard('red','📱',`STORIES DO DIA — ${stories.length} para publicar`,'stories',storiesRows,dk);
+  }
+
+  // ── OPERAÇÃO ────────────────────────────────────────────
+  h+=bcard('org','☀️','OPERAÇÃO — manhã','op',[
+    {txt:'📋 Abrir o portal e separar pedidos agendados',
+     det:`<div class="steps">
+       <div class="step"><div class="step-num">1</div><div>Abra o portal de pedidos</div></div>
+       <div class="step"><div class="step-num">2</div><div>Veja os pedidos agendados para hoje — nome, sabor e horário</div></div>
+       <div class="step"><div class="step-num">3</div><div>Separe cada pedido com o nome do cliente antes do intervalo</div></div>
+     </div>`},
+    {txt:'🎒 Verificar entregas do CAU (bloco + sala + ano)',
+     det:`<div class="note pur">Pedidos CAU: veja bloco, sala e ano preenchidos. Separe por sala e entregue antes do sinal.</div>`},
+    {txt:'📸 Tirar foto para o story (pizza ou bancada)',
+     det:`<div class="note">Pizza pronta, forno ligando, bancada organizada — qualquer ângulo. Esta foto vai no story do dia.</div>`},
+  ],dk);
+
+  h+=bcard('grn','🌅','PÓS-INTERVALO','pos',[
+    {txt:'💬 Enviar pós-venda no WhatsApp para clientes de hoje',
+     det:`<div class="note grn">Aba WhatsApp → copie /posvenda → substitua [Nome] → envie para cada cliente que comprou hoje.</div>`},
+    {txt:'🌙 18h — Responder mensagens e comentários do dia',
+     det:`<div class="note blu">Responda DMs no Instagram, comentários nos posts e mensagens no WhatsApp. Mantenha a conversa ativa e direcione sempre para o portal de pedidos.</div>`},
+  ],dk);
+
+  h+=`<div class="tip"><strong>🏆 Regra de ouro:</strong> Em todo conteúdo — vídeo, card ou story — sempre mencione que dá pra <strong>agendar a retirada sem fila</strong>. É a maior vantagem da Quadrô. 😎🍕</div>`;
+
+  el.innerHTML=h;
+  if(isT) updateProg();
 }
 
-function makeTaskCard(color, icon, title, group, tasks){
-  const div = document.createElement('div');
-  div.className = 'task-card';
-  
-  const stKey = TASK_KEY + todayKey() + '_' + group;
-  const saved = JSON.parse(localStorage.getItem(stKey)||'{}');
-
-  let hdrHtml = `<div class="task-card-hdr ${color}"><div class="tc-icon">${icon}</div><div class="tc-title">${title}</div><button class="tc-reset" onclick="resetGroup('${stKey}',this)">Resetar</button></div>`;
-  
-  let rowsHtml = '';
-  tasks.forEach((task, i) => {
-    const isDone = saved[i] || false;
-    rowsHtml += `<div class="task-row${isDone?' done':''}" onclick="toggleRow(this,'${stKey}',${i})">
-      <div class="task-row-inner">
-        <div class="tcheck">${isDone?'✓':''}</div>
-        <div class="ttext">${task.txt}</div>
-        ${task.detail ? '<div style="font-size:18px;color:#CCC;margin-left:auto">›</div>' : ''}
+// ── BCARD BUILDER ───────────────────────────────────────────
+function bcard(color,icon,title,group,tasks,dk){
+  const sk=TK+(dk||'g')+'_'+group;
+  const saved=JSON.parse(localStorage.getItem(sk)||'{}');
+  let rows='';
+  tasks.forEach((t,i)=>{
+    const done=saved[i]||false;
+    rows+=`<div class="trow${done?' done':''}" onclick="togRow(this,'${sk}',${i})">
+      <div class="trow-top">
+        <div class="tchk" onclick="togDone(this,'${sk}',${i})">${done?'✓':''}</div>
+        <div class="ttxt">${t.txt}</div>
+        ${t.det?`<div class="texp">›</div>`:''}
       </div>
-      ${task.detail ? `<div class="task-detail">${task.detail}</div>` : ''}
+      ${t.det?`<div class="tdetail">${t.det}</div>`:''}
     </div>`;
   });
-
-  div.innerHTML = hdrHtml + rowsHtml;
-  return div;
+  return `<div class="bcard" style="margin-bottom:12px">
+    <div class="bcard-hdr ${color}">
+      <div class="bc-icon">${icon}</div>
+      <div class="bc-title">${title}</div>
+      <button class="breset" onclick="event.stopPropagation();resetG('${sk}')">Resetar</button>
+    </div>${rows}</div>`;
 }
 
-// ─── INTERACTIONS ─────────────────────────────────────────
-function toggleRow(row, stKey, idx){
-  // If clicking on the row itself, toggle expand AND check
+// ── INTERACTIONS ────────────────────────────────────────────
+function togRow(row,sk,idx){
+  // row click = only expand/collapse
+  const det=row.querySelector('.tdetail');
+  if(det){ det.classList.toggle('open'); row.classList.toggle('open-row'); }
+}
+function togDone(el,sk,idx){
+  event.stopPropagation();
+  const row=el.closest('.trow');
   row.classList.toggle('done');
-  const detail = row.querySelector('.task-detail');
-  if(detail){
-    // First click: expand. If already expanded + done, collapse.
-    if(!detail.classList.contains('open')){
-      detail.classList.add('open');
-      if(!row.classList.contains('done')) row.classList.add('done');
-    } else {
-      detail.classList.remove('open');
-    }
-  }
-  // Save state
-  const stKey2 = stKey;
-  const saved = JSON.parse(localStorage.getItem(stKey2)||'{}');
-  saved[idx] = row.classList.contains('done');
-  localStorage.setItem(stKey2, JSON.stringify(saved));
-  updateProgress();
+  el.textContent=row.classList.contains('done')?'✓':'';
+  const sv=JSON.parse(localStorage.getItem(sk)||'{}');
+  sv[idx]=row.classList.contains('done');
+  localStorage.setItem(sk,JSON.stringify(sv));
+  updateProg();
 }
-
-function resetGroup(stKey, btn){
-  localStorage.removeItem(stKey);
-  build();
+function resetG(sk){localStorage.removeItem(sk);renderDay()}
+function updateProg(){
+  const all=document.querySelectorAll('.trow');
+  const done=document.querySelectorAll('.trow.done');
+  const pct=all.length?Math.round(done.length/all.length*100):0;
+  const pf=document.getElementById('pf');
+  const pp=document.getElementById('pp');
+  if(pf) pf.style.width=pct+'%';
+  if(pp) pp.textContent=pct+'%';
 }
-
-function updateProgress(){
-  const all  = document.querySelectorAll('.task-row');
-  const done = document.querySelectorAll('.task-row.done');
-  const pct  = all.length ? Math.round(done.length/all.length*100) : 0;
-  document.getElementById('prog-bar').style.width = pct+'%';
-  document.getElementById('prog-pct').textContent = pct+'%';
-}
-
-function cpPrompt(btn, id){
-  navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{
-    btn.textContent='Copiado ✓'; btn.classList.add('ok');
-    setTimeout(()=>{ btn.textContent='Copiar'; btn.classList.remove('ok'); },2200);
+function cpP(btn,id){
+  const el=document.getElementById(id);
+  if(!el) return;
+  navigator.clipboard.writeText(el.textContent).then(()=>{
+    btn.textContent='Copiado ✓';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copiar';btn.classList.remove('ok');},2500);
   });
 }
 
-function cpWA(btn, id){
+// ── TABS ────────────────────────────────────────────────────
+function goTab(name,btn){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  document.getElementById('tab-'+name).classList.add('on');
+  btn.classList.add('on');
+  if(name==='wa') fillWA();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── WA ───────────────────────────────────────────────────────
+function fillWA(){
+  const L=getL(),D=getD();
+  document.getElementById('wm1').textContent=`🍕 *Eii, bem-vindo à Quadrô Pizza!*\n\nA pizza quadrada artesanal que virou vício na UNIVALI 😎✨\n\n👇 Faça seu pedido agora e *retire sem fila no recreio:*\n🔗 ${L}\n\n📍 Ao lado do Teatro da UNIVALI — Bloco C2\n⏰ Nos horários de intervalo, Seg a Sex\n\n_Escolha uma opção:_\n*1* — Ver sabores 🍕\n*2* — Ver combos 💰\n*3* — Como funciona o agendamento 📲\n*4* — Entrega para alunos do CAU 🎒\n*5* — Localização e horário 📍\n*6* — Falar com a gente 💬`;
+  document.getElementById('wm2').textContent=`🍕 *Nossos Sabores*\n\n🧀 *Mussarela* — clássica e irresistível\n🍅 *Margherita* — tomate, manjericão e mussarela\n🌶️ *Calabresa* — calabresa acebolada\n🐷 *Portuguesa* — presunto, ovo, cebola e azeitona\n🔴 *Pepperoni* — pepperoni no ponto\n⭐ *Sabor do dia* — surpresa artesanal!\n\n_Todos feitos na hora, no formato quadrado único ✂️_\n\n👇 Agende agora — retire sem fila:\n🔗 ${L}`;
+  document.getElementById('wm3').textContent=`💰 *Nossos Combos*\n\nCombina mais, paga menos 😏\n\n📦 *Combo Duplo* — 2 fatias por [R$XX]\n📦 *Combo Trio* — 3 fatias por [R$XX]\n📦 *Combo Especial* — [descrição]\n\n🎯 Agende pelo portal e garante o combo sem fila!\n\n🔗 ${L}\n\n_Consulte disponibilidade no portal._`;
+  document.getElementById('wm4').textContent=`📲 *Como funciona o agendamento?*\n\nÉ simples e grátis 👇\n\n*1️⃣* Acesse o portal: 🔗 ${L}\n*2️⃣* Escolha seu sabor 🍕\n*3️⃣* Escolha o horário ⏰\n*4️⃣* Finalize o pedido ✅\n\n📦 Sua pizza fica separada com seu nome. Chegue e pegue *sem fila no recreio!*\n\n❓ *Dúvidas frequentes:*\n• _Posso escolher o horário exato?_ ✅ Sim!\n• _Qualquer curso pode agendar?_ ✅ Todos!\n• _Como sei que ficou pronto?_ Confirmação pelo portal 📲\n• _Posso cancelar?_ Sim — fale com a gente com antecedência`;
+  document.getElementById('wm5').textContent=`🎒 *Entrega para alunos do CAU até o 5º ano!* 🍕\n\nEspecial para os pequenos da UNIVALI 😍\n\nNa hora de pedir pelo portal, informe:\n📌 *Bloco* da sala\n🚪 *Número da sala*\n🎓 *Ano da turma* (disponível até o 5º ano)\n\nA pizza chega quentinha na hora do intervalo! 🎉\n\n👇 Faça o pedido agora:\n🔗 ${L}\n\nQualquer dúvida é só chamar 💛`;
+  document.getElementById('wm6').textContent=`📍 *Onde e quando nos encontrar*\n\n🗺️ *Localização:*\nAo lado do Teatro da UNIVALI — Bloco C2\n\n⏰ *Horário:*\nSegunda a Sexta — horários de intervalo da UNIVALI\n\n⚡ O intervalo é curto — agende pelo portal e retire sem fila:\n🔗 ${L}\n\nQualquer dúvida é só chamar 😊`;
+  document.getElementById('wm7').textContent=`Eii, [Nome]! 🍕😎\n\nEspero que tenha curtido sua Quadrô hoje!\n\n⭐ Você recebeu um link de avaliação no portal — leva menos de 1 minuto e nos ajuda muito!\n\n📲 Ainda não segue a gente no Instagram?\n👉 @quadropizza\n\nLá postamos sabores do dia, ofertas e novidades que só quem segue fica sabendo 👀`;
+  document.getElementById('wm8').textContent=`🎉 *Valeu por avaliar, [Nome]!*\n\nSua opinião é muito importante pra gente 💛\n\nComo agradecimento especial:\n\n🏷️ *${D}% de desconto no seu próximo pedido*\n📌 Código: *QUADRO${D}*\n📅 Válido por 7 dias\n\n👇 Use no portal:\n🔗 ${L}\n\nAté a próxima! 🍕😎`;
+}
+function cpWA(btn,id){
   navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{
-    btn.textContent='Copiado ✓'; btn.classList.add('ok');
-    setTimeout(()=>{ btn.textContent='Copiar mensagem'; btn.classList.remove('ok'); },2200);
+    btn.textContent='Copiado ✓';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='Copiar mensagem';btn.classList.remove('ok');},2500);
   });
 }
 
-// ─── INIT ─────────────────────────────────────────────────
-build();
+// ── HEADER DATE ─────────────────────────────────────────────
+function setHdr(){
+  const d=new Date();
+  const dn=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  document.getElementById('hdr-date').textContent=dn[d.getDay()]+' '+d.getDate()+'/'+('0'+(d.getMonth()+1)).slice(-2);
+}
+
+// ── INIT ────────────────────────────────────────────────────
+loadCfg();setHdr();buildDateNav();renderDay();
 </script>
 </body>
 </html>
