@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quadrô Pizza — Portal do Gestor</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #CC1F1F;
+  --red-dark: #9B1515;
+  --yellow: #F5C842;
+  --yellow-dark: #D4A832;
+  --black: #111111;
+  --cream: #FFF8F0;
+  --cream2: #F0E8DC;
+  --white: #ffffff;
+  --green: #1D9E75;
+  --blue: #185FA5;
+  --gray: #6B6B6B;
+  --card-bg: #ffffff;
+  --shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background: var(--cream);
+  color: var(--black);
+  min-height: 100vh;
+}
+
+/* HEADER */
+.header {
+  background: var(--red);
+  padding: 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 4px 0 var(--red-dark);
+}
+
+.header-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.logo {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 22px;
+  color: var(--yellow);
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo span { color: white; }
+
+.header-date {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* CHECKLIST CHECKERED BORDER */
+.checker-bar {
+  height: 12px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--cream2) 0px, var(--cream2) 12px,
+    var(--red) 12px, var(--red) 24px
+  );
+}
+
+/* NAV TABS */
+.nav {
+  background: var(--black);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  gap: 0;
+}
+
+.nav-btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.5);
+  padding: 14px 20px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  border-bottom: 3px solid transparent;
+}
+
+.nav-btn:hover { color: var(--yellow); }
+.nav-btn.active { color: var(--yellow); border-bottom-color: var(--yellow); }
+
+/* MAIN */
+.main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 24px;
+}
+
+.section { display: none; }
+.section.active { display: block; }
+
+/* SECTION TITLE */
+.sec-title {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 28px;
+  color: var(--red);
+  margin-bottom: 4px;
+  line-height: 1;
+}
+.sec-sub {
+  font-size: 14px;
+  color: var(--gray);
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+/* CARDS GRID */
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+
+/* CARD */
+.card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--red);
+}
+
+.card.yellow { border-top-color: var(--yellow); }
+.card.green { border-top-color: var(--green); }
+.card.blue { border-top-color: var(--blue); }
+
+.card-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--red);
+  margin-bottom: 6px;
+}
+.card.yellow .card-label { color: var(--yellow-dark); }
+.card.green .card-label { color: var(--green); }
+.card.blue .card-label { color: var(--blue); }
+
+.card-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  color: var(--black);
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.card-body {
+  font-size: 13px;
+  color: #444;
+  line-height: 1.7;
+}
+
+/* CHECKLIST */
+.checklist { list-style: none; }
+.checklist li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px dashed #E8E0D5;
+  font-size: 13px;
+  line-height: 1.5;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li.done { opacity: 0.4; text-decoration: line-through; }
+
+.check-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--red);
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 11px;
+  color: white;
+}
+.done .check-box { background: var(--green); border-color: var(--green); }
+
+/* BADGE */
+.badge {
+  display: inline-block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-right: 4px;
+}
+.badge-red { background: var(--red); color: white; }
+.badge-yellow { background: var(--yellow); color: #6B3F00; }
+.badge-green { background: var(--green); color: white; }
+.badge-blue { background: var(--blue); color: white; }
+.badge-purple { background: #6B4FBB; color: white; }
+
+/* PROMPT CARD */
+.prompt-block {
+  background: #1a1a1a;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 12px;
+  position: relative;
+}
+
+.prompt-text {
+  font-family: 'Barlow', monospace;
+  font-size: 12px;
+  color: #C8F7B0;
+  line-height: 1.7;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--yellow);
+  color: var(--black);
+  border: none;
+  border-radius: 8px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.copy-btn:hover { background: var(--yellow-dark); }
+.copy-btn.copied { background: var(--green); color: white; }
+
+/* ATTACH NOTE */
+.attach-note {
+  background: #E8F5EE;
+  border-left: 3px solid var(--green);
+  border-radius: 0 8px 8px 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #0F5C3A;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+.ai-note {
+  background: #FFF3CD;
+  border-left: 3px solid var(--yellow-dark);
+  border-radius: 0 8px 8px 0;
+  padding: 8px 12px;
+  font-size: 12px;
+  color: #7A5200;
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* WHATSAPP BUBBLE */
+.wa-bubble {
+  background: #DCF8C6;
+  border-radius: 16px 16px 4px 16px;
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #111;
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.wa-copy {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: #25D366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: block;
+  margin-top: 6px;
+}
+.wa-copy:hover { background: #1aad55; }
+.wa-copy.copied { background: #0F7A3E; }
+
+/* STORY CARD */
+.story-card {
+  background: var(--white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+
+.story-header {
+  background: var(--red);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.story-day-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.8);
+}
+
+.story-headline {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 16px;
+  color: var(--yellow);
+  line-height: 1.2;
+}
+
+.story-body { padding: 14px 16px; }
+
+.story-type {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.type-foto { background: #E6F1FB; color: var(--blue); }
+.type-ai { background: #FFF3CD; color: #7A5200; }
+.type-video { background: #FAECE7; color: #993C1D; }
+
+.story-desc { font-size: 13px; color: #555; line-height: 1.6; margin-bottom: 10px; }
+
+/* CRONOGRAMA */
+.crono-week { margin-bottom: 28px; }
+.crono-week-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: white;
+  background: var(--black);
+  padding: 8px 14px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  display: inline-block;
+}
+
+.crono-row {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: start;
+}
+
+.crono-day {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 8px;
+  border-radius: 8px;
+  text-align: center;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+.crono-day.v { background: var(--red); color: white; }
+.crono-day.c { background: var(--yellow); color: #6B3F00; }
+.crono-day.s { background: var(--cream2); color: var(--gray); border: 1px solid #DDD; }
+
+.crono-content {
+  background: white;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+/* ACCORDION */
+.accordion { margin-bottom: 8px; }
+.accordion-btn {
+  width: 100%;
+  text-align: left;
+  background: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 18px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--black);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: all 0.2s;
+}
+.accordion-btn:hover { background: var(--cream2); }
+.accordion-btn.open { border-radius: 12px 12px 0 0; background: var(--red); color: white; }
+.accordion-arrow { font-size: 18px; transition: transform 0.2s; }
+.accordion-btn.open .accordion-arrow { transform: rotate(180deg); }
+.accordion-body {
+  display: none;
+  background: white;
+  border-radius: 0 0 12px 12px;
+  padding: 16px 18px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-size: 13px;
+  line-height: 1.7;
+  color: #444;
+}
+.accordion-body.open { display: block; }
+
+/* GESTOR ROTINA */
+.day-block {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin-bottom: 12px;
+}
+.day-block-header {
+  background: var(--black);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.day-emoji { font-size: 18px; }
+.day-name {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 15px;
+  color: var(--yellow);
+  letter-spacing: 0.5px;
+}
+.day-tasks { padding: 4px 0; }
+.task-item {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 16px;
+  border-bottom: 1px solid #F0EAE0;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.task-item:last-child { border-bottom: none; }
+.task-item:hover { background: #FFF8F0; }
+.task-item.done-task { opacity: 0.4; }
+.task-item.done-task .task-text { text-decoration: line-through; }
+
+.task-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 2px solid #DDD;
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: white;
+  transition: all 0.2s;
+}
+.done-task .task-check { background: var(--green); border-color: var(--green); }
+
+.task-text { font-size: 13px; line-height: 1.6; }
+.task-tag { font-size: 10px; font-weight: 700; background: var(--red); color: white; padding: 1px 6px; border-radius: 4px; margin-right: 4px; }
+.task-tag.y { background: var(--yellow); color: #6B3F00; }
+.task-tag.g { background: var(--green); color: white; }
+.task-tag.b { background: var(--blue); color: white; }
+
+/* RESET DAY BTN */
+.reset-btn {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: transparent;
+  color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  padding: 3px 10px;
+  cursor: pointer;
+  margin-left: auto;
+  transition: all 0.15s;
+}
+.reset-btn:hover { color: white; border-color: rgba(255,255,255,0.6); }
+
+/* TIP BOX */
+.tip-box {
+  background: var(--yellow);
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #5A3C00;
+  font-weight: 500;
+  margin-top: 16px;
+}
+.tip-box strong { color: #3A2500; }
+
+/* STAT CARDS */
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 24px; }
+.stat-card {
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.stat-icon { font-size: 28px; }
+.stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray); }
+.stat-val { font-family: 'Black Ops One', sans-serif; font-size: 26px; color: var(--red); line-height: 1; }
+
+/* PROGRESS */
+.progress-bar-wrap { background: #EEE; border-radius: 8px; height: 8px; margin-top: 4px; overflow: hidden; }
+.progress-bar { height: 100%; border-radius: 8px; background: var(--green); transition: width 0.4s; }
+
+/* DIVIDER */
+.divider { height: 1px; background: #E8E0D5; margin: 20px 0; }
+
+/* SCROLL TOP */
+.scroll-top {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--red);
+  color: white;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(204,31,31,0.4);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  transition: all 0.2s;
+}
+.scroll-top.show { display: flex; }
+.scroll-top:hover { background: var(--red-dark); transform: scale(1.05); }
+
+@media (max-width: 600px) {
+  .main { padding: 20px 14px; }
+  .sec-title { font-size: 22px; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .header-inner { padding: 0 14px; }
+  .logo { font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<div class="checker-bar"></div>
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">🍕 Quadrô <span>Pizza</span></div>
+    <div class="header-date" id="header-date"></div>
+  </div>
+</header>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showSection('dashboard')">🏠 Início</button>
+    <button class="nav-btn" onclick="showSection('cronograma')">📅 Cronograma</button>
+    <button class="nav-btn" onclick="showSection('rotina')">✅ Rotina</button>
+    <button class="nav-btn" onclick="showSection('prompts')">🎨 Prompts IA</button>
+    <button class="nav-btn" onclick="showSection('stories')">📱 Stories</button>
+    <button class="nav-btn" onclick="showSection('whatsapp')">💬 WhatsApp</button>
+  </div>
+</nav>
+
+<main class="main">
+
+<!-- DASHBOARD -->
+<div id="dashboard" class="section active">
+  <div class="sec-title">BOM DIA, GESTOR! 👋</div>
+  <div class="sec-sub" id="dash-sub">Aqui está o resumo do seu dia de hoje.</div>
+
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-icon">📅</div>
+      <div class="stat-label">Dias de campanha</div>
+      <div class="stat-val" id="stat-days">21</div>
+      <div style="font-size:11px;color:var(--gray)">11 mai — 31 mai</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🎬</div>
+      <div class="stat-label">Vídeos na campanha</div>
+      <div class="stat-val">9</div>
+      <div style="font-size:11px;color:var(--gray)">3 por semana</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">🖼️</div>
+      <div class="stat-label">Cards estáticos</div>
+      <div class="stat-val">10</div>
+      <div style="font-size:11px;color:var(--gray)">Gerados por IA</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">📱</div>
+      <div class="stat-label">Stories / dia</div>
+      <div class="stat-val">1+</div>
+      <div style="font-size:11px;color:var(--gray)">Link de pedido sempre</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-title" style="font-size:20px;margin-bottom:12px">ACESSO RÁPIDO</div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-label">🔗 Portal de pedidos</div>
+      <div class="card-title">Link do site de pedidos</div>
+      <div class="card-body">
+        <input id="portal-link" type="text" placeholder="Cole o link do portal aqui" style="width:100%;padding:8px 12px;border-radius:8px;border:1.5px solid #DDD;font-size:13px;font-family:'Barlow',sans-serif;color:var(--black);margin-top:4px;outline:none" oninput="saveLink(this.value)">
+        <button onclick="openPortal()" style="margin-top:8px;width:100%;padding:9px;background:var(--red);color:white;border:none;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;text-transform:uppercase;cursor:pointer;letter-spacing:0.06em">Abrir portal →</button>
+      </div>
+    </div>
+    <div class="card yellow">
+      <div class="card-label">💰 Cupom pós-avaliação</div>
+      <div class="card-title">% de desconto</div>
+      <div class="card-body">
+        <input id="discount-val" type="number" placeholder="Ex: 10" min="1" max="50" style="width:100%;padding:8px 12px;border-radius:8px;border:1.5px solid #DDD;font-size:13px;font-family:'Barlow',sans-serif;color:var(--black);margin-top:4px;outline:none" oninput="saveDiscount(this.value)">
+        <div style="font-size:12px;color:var(--gray);margin-top:6px">Esse % aparece automaticamente nas mensagens de pós-venda do WhatsApp.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-title" style="font-size:20px;margin-bottom:12px">REGRA DE OURO 🏆</div>
+  <div class="tip-box">
+    <strong>Em TODO conteúdo — vídeo, card ou story — sempre mencione que dá pra agendar a retirada.</strong><br>
+    Isso resolve o maior problema do cliente (recreio curto), aumenta pedidos com antecedência e facilita a sua operação. Quanto mais agendamentos, menos correria no intervalo pra você também! 😎🍕
+  </div>
+</div>
+
+<!-- CRONOGRAMA -->
+<div id="cronograma" class="section">
+  <div class="sec-title">CRONOGRAMA</div>
+  <div class="sec-sub">11 a 31 de maio — 3 vídeos por semana + cards nos dias de intervalo</div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+    <span><span class="crono-day v" style="display:inline-block;padding:3px 10px;font-size:11px">🎬 Vídeo</span></span>
+    <span><span class="crono-day c" style="display:inline-block;padding:3px 10px;font-size:11px">🖼️ Card IA</span></span>
+    <span style="font-size:12px;color:var(--gray);align-self:center">+ Stories todo dia útil</span>
+  </div>
+
+  <div class="crono-week">
+    <div class="crono-week-title">SEMANA 1 — 12 a 16 MAI</div>
+    <div class="crono-row"><div class="crono-day v">SEG<br>12</div><div class="crono-content"><span class="badge badge-red">🎬 Vídeo 1</span> Abertura de temporada — bastidores da montagem, "voltamos e o vício também"</div></div>
+    <div class="crono-row"><div class="crono-day c">TER<br>13</div><div class="crono-content"><span class="badge badge-yellow">🖼️ Card 1</span> "Agende e retire sem fila" — CTA principal com link do portal</div></div>
+    <div class="crono-row"><div class="crono-day v">QUA<br>14</div><div class="crono-content"><span class="badge badge-red">🎬 Vídeo 2</span> ASMR corte da pizza quadrada — "parece que não cabe mas cabe"</div></div>
+    <div class="crono-row"><div class="crono-day c">QUI<br>15</div><div class="crono-content"><span class="badge badge-yellow">🖼️ Card 2</span> Cardápio de sabores — visual retro com cada sabor listado</div></div>
+    <div class="crono-row"><div class="crono-day v">SEX<br>16</div><div class="crono-content"><span class="badge badge-red">🎬 Vídeo 3</span> POV: você agendou, todo mundo na fila olhando pra você</div></div>
+  </div>
+
+  <div class="crono-week">
+    <div class="crono-week-title">SEMANA 2 — 19 a 23 MAI</div>
+    <div class="crono-row"><div class="crono-day v">SEG<br>19</div><div class="crono-content"><span class="badge badge-red">🎬 Vídeo 4</span> "O recreio é 15 min — agende ou passa fome" (humor + urgência)</div></div>
+    <div class="crono-row"><div class="crono-day c">TER<br>20</div><div class="crono-content"><span class="badge badge-yellow">🖼️ Card 3</span> Como funciona o agendamento — passo a passo visual em 3 etapas</div></div>
+    <div class="crono-row"><div class="crono-day v">QUA<br>21</div><div class="crono-content"><span class="badge badge-red">🎬 Vídeo 5</span> Reação de aluno pegando a pizza — testemunhal espontâneo</div></div>
+    <div class="crono-row"><div class="crono-day c">QUI<br>22</div><div class="crono-content"><span class="badge badge-purple">🎒 Card CAU</span> Entrega para alunos do CAU até 5º ano — bloco, sala e ano no pedido</div></div>
+    <div class="crono-row"><div class="crono-day v">SEX<br>23</div><div class="crono-content"><span class="badge badge-red">🎬 Vídeo 6</span> Processo de fazer a pizza do início ao fim — satisfying video</div></div>
+  </div>
+
+  <div class="crono-week">
+    <div class="crono-week-title">SEMANA 3 — 26 a 30 MAI</div>
+    <div class="crono-row"><div class="crono-day v">SEG<br>26</div><div class="crono-content"><span class="badge badge-red">🎬 Vídeo 7</span> Antes/depois: fila caótica vs agendado e na mão na hora certa</div></div>
+    <div class="crono-row"><div class="crono-day c">TER<br>27</div><div class="crono-content"><span class="badge badge-yellow">🖼️ Card 5</span> Combo da semana — oferta especial com CTA de pedido</div></div>
+    <div class="crono-row"><div class="crono-day v">QUA<br>28</div><div class="crono-content"><span class="badge badge-red">🎬 Vídeo 8</span> "Já avaliou? Tem desconto te esperando" — mostra fluxo pós-venda</div></div>
+    <div class="crono-row"><div class="crono-day c">QUI<br>29</div><div class="crono-content"><span class="badge badge-yellow">🖼️ Card 6</span> Localização — "Ao lado do Teatro UNIVALI, Bloco C2"</div></div>
+    <div class="crono-row"><div class="crono-day v">SEX<br>30</div><div class="crono-content"><span class="badge badge-red">🎬 Vídeo 9</span> Encerramento do mês — agradecimento + teaser do próximo período</div></div>
+  </div>
+
+  <div class="tip-box">
+    <strong>📱 Stories todo dia útil:</strong> 1 story com link do portal. Modelos prontos na aba Stories — cada dia tem a headline já escrita.
+  </div>
+</div>
+
+<!-- ROTINA -->
+<div id="rotina" class="section">
+  <div class="sec-title">ROTINA DO GESTOR</div>
+  <div class="sec-sub">Clique nas tarefas para marcar como feito. Reset automático ao virar o dia.</div>
+
+  <div id="progress-wrap" style="margin-bottom:20px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <span style="font-size:13px;font-weight:600;color:var(--gray)">Progresso do dia</span>
+      <span id="progress-label" style="font-size:13px;font-weight:700;color:var(--red)">0%</span>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+  </div>
+
+  <!-- MANHÃ -->
+  <div class="day-block">
+    <div class="day-block-header">
+      <div class="day-emoji">☀️</div>
+      <div class="day-name">MANHÃ — antes de abrir</div>
+      <button class="reset-btn" onclick="resetDay('manha')">Resetar</button>
+    </div>
+    <div class="day-tasks" id="tasks-manha">
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text">📸 Tirar 1 foto da pizza, bancada ou preparação do dia</div></div>
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text">📱 Postar o story do dia com a headline (aba Stories) + sticker de link do portal</div></div>
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text">📋 Ver quantos pedidos agendados chegaram para o intervalo de hoje</div></div>
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text">🍕 Separar os pedidos agendados com o nome de cada cliente</div></div>
+    </div>
+  </div>
+
+  <!-- INTERVALO -->
+  <div class="day-block">
+    <div class="day-block-header">
+      <div class="day-emoji">⚡</div>
+      <div class="day-name">INTERVALO — na hora da entrega</div>
+      <button class="reset-btn" onclick="resetDay('intervalo')">Resetar</button>
+    </div>
+    <div class="day-tasks" id="tasks-intervalo">
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text">✅ Entregar pedidos agendados primeiro — clientes já esperando pelo nome</div></div>
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text">🎒 <span class="task-tag" style="background:#6B4FBB">CAU</span> Separar e enviar entregas de alunos do CAU (bloco/sala/ano) antes do intervalo</div></div>
+    </div>
+  </div>
+
+  <!-- PÓS-INTERVALO -->
+  <div class="day-block">
+    <div class="day-block-header">
+      <div class="day-emoji">🌅</div>
+      <div class="day-name">APÓS O INTERVALO</div>
+      <button class="reset-btn" onclick="resetDay('pos')">Resetar</button>
+    </div>
+    <div class="day-tasks" id="tasks-pos">
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text">💬 Enviar mensagem de pós-venda no WhatsApp para quem comprou hoje (copiar da aba WhatsApp)</div></div>
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text">⭐ Verificar avaliações recebidas no portal e enviar cupons de desconto</div></div>
+    </div>
+  </div>
+
+  <!-- DIAS DE VÍDEO -->
+  <div class="day-block">
+    <div class="day-block-header">
+      <div class="day-emoji">🎬</div>
+      <div class="day-name">DIAS DE VÍDEO (Seg / Qua / Sex)</div>
+      <button class="reset-btn" onclick="resetDay('video')">Resetar</button>
+    </div>
+    <div class="day-tasks" id="tasks-video">
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text">📱 Publicar o vídeo no TikTok e Instagram Reels</div></div>
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text">📲 Compartilhar o vídeo nos stories com sticker "Assistir agora"</div></div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="sec-title" style="font-size:20px;margin-bottom:12px">ROTINA SEMANAL — SEGUNDA DE MANHÃ</div>
+  <div style="font-size:13px;color:var(--gray);margin-bottom:14px">Faça tudo numa manhã (30–40 min no total) e a semana fica leve.</div>
+
+  <div class="day-block">
+    <div class="day-block-header">
+      <div class="day-emoji">🗓️</div>
+      <div class="day-name">BLOCO CRIATIVO — SEGUNDA</div>
+      <button class="reset-btn" onclick="resetDay('semanal')">Resetar</button>
+    </div>
+    <div class="day-tasks" id="tasks-semanal">
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text"><span class="task-tag">🎬</span> <strong>20 min:</strong> Gravar os 3 vídeos da semana de uma vez — ver temas no Cronograma. Editar no CapCut.</div></div>
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text"><span class="task-tag y">🖼️</span> <strong>10 min:</strong> Abrir ChatGPT → copiar prompt da aba "Prompts IA" → gerar → baixar → ajustar no Canva se precisar.</div></div>
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text"><span class="task-tag y">📱</span> <strong>5 min:</strong> Gerar os stories que são criados pela IA (Quarta e Quinta) usando os prompts da aba Stories.</div></div>
+      <div class="task-item" onclick="toggleTask(this)"><div class="task-check">✓</div><div class="task-text"><span class="task-tag g">⭐</span> <strong>5 min:</strong> Ver avaliações pendentes e responder os cupons de desconto pelo WhatsApp.</div></div>
+    </div>
+  </div>
+
+  <div class="tip-box" style="margin-top:16px">
+    <strong>💡 Dica:</strong> Você não precisa fazer tudo perfeito. Um story com foto tirada na hora + headline + link já é melhor do que nenhum post. Consistência bate perfeição sempre! 🍕
+  </div>
+</div>
+
+<!-- PROMPTS IA -->
+<div id="prompts" class="section">
+  <div class="sec-title">PROMPTS PARA IA</div>
+  <div class="sec-sub">Copie o prompt → cole no ChatGPT ou Adobe Firefly → baixe → publique. Fácil assim.</div>
+
+  <div style="background:#E6F1FB;border-radius:12px;padding:12px 16px;font-size:13px;color:#0C447C;margin-bottom:20px;line-height:1.6">
+    📎 <strong>Quando o card indicar "Anexar imagem":</strong> adicione a foto sugerida junto com o prompt na mesma mensagem para a IA. Isso garante que a arte saia com o estilo da marca.
+  </div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>🖼️ Card 1 — Agendamento CTA <span class="badge badge-red">Semana 1</span></span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <strong style="font-size:12px;color:var(--gray)">"Agende e retire sem fila"</strong>
+    <div class="attach-note">📎 Sem imagem necessária — arte 100% gerada pela IA</div>
+    <div class="prompt-block"><button class="copy-btn" onclick="cpBtn(this, 'p1')">Copiar</button><div class="prompt-text" id="p1">Create a bold vertical social media card (1080x1350px) for a Brazilian square pizza brand called "Quadrô Pizza". Style: retro-bold, red background (#CC1F1F), cream checkered border pattern on sides. Top text in large yellow bold font: "O RECREIO É CURTO". Center text in huge white bold italic font: "AGENDE SUA PIZZA". Bottom accent: melting cheese drip graphic in yellow. Include a pizza slice mascot wearing sunglasses giving thumbs up (retro cartoon style). Bottom text: "Sem fila. Sem estresse." in white bold. Clean, high contrast, street food energy.</div></div>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>🧀 Card 2 — Cardápio de sabores <span class="badge badge-red">Semana 1</span></span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="attach-note">📎 Sem imagem — gerado pela IA. Edite os nomes dos sabores no Canva depois.</div>
+    <div class="prompt-block"><button class="copy-btn" onclick="cpBtn(this, 'p2')">Copiar</button><div class="prompt-text" id="p2">Design a retro-style square pizza menu card (1080x1080px) for "Quadrô Pizza". Cream/off-white background with red checkered pattern borders. Top: "NOSSOS SABORES" in bold yellow outlined font. Center: 4 square pizza slices illustrated in retro cartoon style, each with different toppings (pepperoni, margherita, portuguesa, calabresa). Each slice has a yellow label tag. Bottom: "Artesanal. Formato único. Preço acessível." in black bold. Overall aesthetic: retro diner meets Brazilian street food, bold and fun.</div></div>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>📲 Card 3 — Como funciona o agendamento <span class="badge badge-red">Semana 2</span></span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="attach-note">📎 Sem imagem — gerado pela IA. Edite o link do portal no Canva depois.</div>
+    <div class="prompt-block"><button class="copy-btn" onclick="cpBtn(this, 'p3')">Copiar</button><div class="prompt-text" id="p3">Create an infographic-style social media card (1080x1080px) for "Quadrô Pizza". Bold red background (#CC1F1F), cream checkered top and bottom borders. Title: "COMO PEDIR ONLINE" in large yellow bold font. Center: 3 numbered steps in bold white text with yellow circle numbers — Step 1: "Acesse o portal" with phone icon, Step 2: "Escolha seu sabor e horário" with pizza icon, Step 3: "Retire sem fila no recreio" with checkmark icon. Each step separated by a yellow arrow. Retro cartoon mascot (pizza slice with sunglasses) pointing at the steps from the side. Bold, clean, ultra-legible street food style.</div></div>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>🎒 Card 4 — Entrega CAU <span class="badge badge-purple">Especial CAU</span></span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="attach-note">📎 Sem imagem — gerado pela IA. Para alunos do CAU até o 5º ano.</div>
+    <div class="prompt-block"><button class="copy-btn" onclick="cpBtn(this, 'p4')">Copiar</button><div class="prompt-text" id="p4">Create a fun and friendly social media card (1080x1080px) for "Quadrô Pizza" targeting parents and children at UNIVALI CAU school up to 5th grade. Style: retro-bold but warmer. Red background (#CC1F1F), cream checkered borders. Top: cartoon pizza mascot waving happily. Center headline: "CHEGOU NA SALA DE AULA!" in large yellow bold text. Below: 3 icons with white text — backpack icon "Informe o bloco", door icon "Informe a sala", number icon "Informe o ano/turma". Bottom strip in black: "Peça no portal e a gente entrega!" in yellow bold. Friendly, kid-friendly energy keeping Quadrô brand boldness.</div></div>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>💰 Card 5 — Combo da semana <span class="badge badge-red">Semana 3</span></span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="attach-note">📎 Sem imagem — gerado pela IA. Edite o valor do combo no Canva depois.</div>
+    <div class="prompt-block"><button class="copy-btn" onclick="cpBtn(this, 'p5')">Copiar</button><div class="prompt-text" id="p5">Bold promotional card (1080x1080px) for "Quadrô Pizza". Dark background with bold yellow diagonal stripes. Center: two square pizza slices side by side with melting cheese dripping. Large text overlay: "LEVA DOIS" in red bold outline, "PAGA MENOS" in white bold. Yellow price tag sticker graphic with black text. Top corner: cartoon mascot winking. Bottom: "Combo disponível no portal de pedidos" in white text. Retro 90s street food poster energy.</div></div>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>📍 Card 6 — Localização <span class="badge badge-red">Semana 3</span></span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="attach-note">📎 Sem imagem — gerado pela IA</div>
+    <div class="prompt-block"><button class="copy-btn" onclick="cpBtn(this, 'p6')">Copiar</button><div class="prompt-text" id="p6">Create a location card (1080x1080px) for "Quadrô Pizza" at UNIVALI university. Red background (#CC1F1F), cream checkered side borders. Top: cartoon pizza mascot with sunglasses pointing downward. Center: "ONDE ENCONTRAR A GENTE" in large white bold font. Map pin icon + "Ao lado do Teatro da UNIVALI — Bloco C2" in yellow bold. Clock icon + "Nos horários do intervalo" in white. Bottom black strip: "Peça online e retire sem fila" in yellow. Retro bold street food aesthetic.</div></div>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>⭐ Card 7 — Pós-venda/avaliação <span class="badge badge-green">Extra</span></span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="attach-note">📎 Sem imagem — gerado pela IA</div>
+    <div class="prompt-block"><button class="copy-btn" onclick="cpBtn(this, 'p7')">Copiar</button><div class="prompt-text" id="p7">Create a reward/loyalty card (1080x1080px) for "Quadrô Pizza". Cream/off-white background with bold red checkered top border. Center: large star badge graphic in yellow with "AVALIE E GANHE" in red bold text inside. Below: cartoon mascot jumping happily. Text in black bold: "Avaliou seu pedido? Você ganhou desconto no próximo!" with a gift box icon. Bottom strip in red: "Veja no portal" in white. Fun, celebratory, warm retro energy.</div></div>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>❓ Card 8 — FAQ de agendamento <span class="badge badge-green">Extra</span></span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="attach-note">📎 Sem imagem — gerado pela IA</div>
+    <div class="prompt-block"><button class="copy-btn" onclick="cpBtn(this, 'p8')">Copiar</button><div class="prompt-text" id="p8">Create a bold FAQ-style social media card (1080x1080px) for "Quadrô Pizza". Red background (#CC1F1F), cream checkered borders. Top: cartoon mascot with a question mark bubble. Title: "DÚVIDAS SOBRE O AGENDAMENTO?" in large yellow bold. Center: 3 Q&A rows in white text — Q: "Posso escolher o horário?" A: "Sim! Você escolhe na hora de pedir 🕐" | Q: "Qualquer curso pode agendar?" A: "Sim, todos os cursos e anos! 🎓" | Q: "Como sei que tá pronto?" A: "A gente avisa pelo portal 📲". Bottom CTA: "Peça agora" in black on yellow strip. Bold Quadrô style.</div></div>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>💛 Card 9 — Brand statement <span class="badge badge-green">Extra</span></span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="attach-note">📎 Sem imagem — gerado pela IA</div>
+    <div class="prompt-block"><button class="copy-btn" onclick="cpBtn(this, 'p9')">Copiar</button><div class="prompt-text" id="p9">Recreate a bold brand statement card (1080x1080px) for "Quadrô Pizza". Heavy red background (#CC1F1F). Massive yellow outlined bold italic text filling the frame: "A UNIVALI É MUITO" stacked two lines. Bottom third: cartoon pizza slice mascot with sunglasses and thumbs up overlapping the text, with Quadrô Pizza logo treatment beside it in yellow/black bold. Grungy worn texture overlay for authentic feel. High contrast, bold, loud — Brazilian street art energy.</div></div>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>🎒 Card 10 — CAU versão leve <span class="badge badge-purple">Especial CAU</span></span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="attach-note">📎 Sem imagem — gerado pela IA. Segunda versão mais divertida para pais e crianças.</div>
+    <div class="prompt-block"><button class="copy-btn" onclick="cpBtn(this, 'p10')">Copiar</button><div class="prompt-text" id="p10">Create a fun announcement card (1080x1080px) for "Quadrô Pizza". Warm cream background, bold red checkered borders top and bottom. Center: large illustration of a happy cartoon pizza mascot delivering a pizza box to a small classroom door. Headline in red bold: "ALUNOS DO CAU ATÉ O 5º ANO". Subtext in black bold: "A pizza vai até a sua sala! 🍕". Below in smaller text: "Na hora do pedido informe: bloco + sala + ano da turma". Bottom strip in red: "Peça pelo portal" in yellow bold. Warm, fun, reassuring — parents and kids will love it.</div></div>
+  </div></div>
+</div>
+
+<!-- STORIES -->
+<div id="stories" class="section">
+  <div class="sec-title">STORIES DIÁRIOS</div>
+  <div class="sec-sub">Todo dia útil, 1 story com link do portal. Abaixo os modelos prontos por dia.</div>
+
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px">
+    <span class="story-type type-foto">📸 Foto tirada na hora</span>
+    <span class="story-type type-ai">🤖 Criado pela IA</span>
+    <span class="story-type type-video">🎬 Compartilhar vídeo</span>
+  </div>
+
+  <div class="story-card">
+    <div class="story-header">
+      <div><div class="story-day-label">Todo dia útil — obrigatório</div><div class="story-headline">🍕 AGENDE AGORA — SEM FILA NO RECREIO</div></div>
+    </div>
+    <div class="story-body">
+      <span class="story-type type-foto">📸 Foto na hora</span>
+      <div class="story-desc">Tirar foto da pizza pronta no balcão OU da fila de espera. Escrever a headline em cima no Instagram. Colar o sticker de link do portal.</div>
+      <div class="attach-note">📌 Sticker de link: escreva "Pedir agora" no sticker do Instagram</div>
+    </div>
+  </div>
+
+  <div class="story-card">
+    <div class="story-header" style="background:#1a1a1a">
+      <div><div class="story-day-label">Segunda-feira</div><div class="story-headline">🔥 SEMANA NOVA, VÍCIO VELHO. JÁ AGENDOU?</div></div>
+    </div>
+    <div class="story-body">
+      <span class="story-type type-foto">📸 Foto na hora</span>
+      <div class="story-desc">Foto da preparação de manhã — bancada organizada, forno ligando, massa sendo aberta. Tom animado de início de semana.</div>
+      <div class="attach-note">📌 Link sticker: "Agendar pedido"</div>
+    </div>
+  </div>
+
+  <div class="story-card">
+    <div class="story-header" style="background:#854F0B">
+      <div><div class="story-day-label">Terça-feira</div><div class="story-headline">👀 SABOR DO DIA REVELADO — CORRE PRA PEDIR</div></div>
+    </div>
+    <div class="story-body">
+      <span class="story-type type-foto">📸 Foto na hora</span>
+      <div class="story-desc">Close na pizza do sabor especial do dia. Escrever o nome do sabor em amarelo bold por cima. Criar urgência de "acabando logo".</div>
+      <div class="attach-note">📌 Escreva o nome do sabor + "🍕 Últimas unidades" sobre a foto</div>
+    </div>
+  </div>
+
+  <div class="story-card">
+    <div class="story-header" style="background:#0C447C">
+      <div><div class="story-day-label">Quarta-feira</div><div class="story-headline">⏰ 15 MIN DE RECREIO. QUEM AGENDOU JÁ TÁ COMENDO.</div></div>
+    </div>
+    <div class="story-body">
+      <span class="story-type type-ai">🤖 Criado pela IA</span>
+      <div class="story-desc">Story gerado pela IA — foco em urgência de tempo. Copie o prompt abaixo e cole no ChatGPT.</div>
+      <div class="prompt-block" style="margin-top:10px"><button class="copy-btn" onclick="cpBtn(this, 'st1')">Copiar</button><div class="prompt-text" id="st1">Create a bold Instagram story (1080x1920px) for Quadrô Pizza. Red background (#CC1F1F), cream checkered borders. Large yellow bold text at top: "O RECREIO TEM 15 MIN". Center: giant countdown clock illustration. Below in huge white bold: "QUEM AGENDOU JÁ TÁ COMENDO". Pizza mascot running at the bottom. Call to action strip in black: "Agende agora pelo portal" in yellow. Retro bold street food energy, high urgency.</div></div>
+      <div class="attach-note" style="margin-top:8px">📌 Depois de gerar: adicionar o link do portal como sticker no Instagram antes de publicar</div>
+    </div>
+  </div>
+
+  <div class="story-card">
+    <div class="story-header" style="background:#6B4FBB">
+      <div><div class="story-day-label">Quinta-feira — CAU</div><div class="story-headline">🎒 ALUNOS DO CAU: A PIZZA VAI ATÉ VOCÊ!</div></div>
+    </div>
+    <div class="story-body">
+      <span class="story-type type-ai">🤖 Criado pela IA</span>
+      <div class="story-desc">Story especial para pais de alunos do CAU até o 5º ano. Leve e acolhedor. Copie o prompt abaixo.</div>
+      <div class="prompt-block" style="margin-top:10px"><button class="copy-btn" onclick="cpBtn(this, 'st2')">Copiar</button><div class="prompt-text" id="st2">Create a fun Instagram story (1080x1920px) for Quadrô Pizza targeting parents of young students at CAU school UNIVALI (up to 5th grade). Warm red background (#CC1F1F), cream checkered borders. Happy pizza mascot carrying a pizza box. Large white bold text: "A PIZZA VAI ATÉ A SALA DO SEU FILHO!" Below in yellow bold: "CAU até o 5º ano — peça no portal e informe bloco, sala e ano". Bottom CTA strip in black: "Fazer pedido agora" in yellow. Friendly, warm, parental energy with Quadrô brand boldness.</div></div>
+      <div class="attach-note" style="margin-top:8px">📌 Adicionar link do portal como sticker após gerar</div>
+    </div>
+  </div>
+
+  <div class="story-card">
+    <div class="story-header" style="background:#1D9E75">
+      <div><div class="story-day-label">Sexta-feira</div><div class="story-headline">😎 FECHA A SEMANA COM GOSTO. ÚLTIMA CHANCE HOJE!</div></div>
+    </div>
+    <div class="story-body">
+      <span class="story-type type-foto">📸 Foto na hora</span>
+      <div class="story-desc">Foto da pizza sendo entregue ou aluno satisfeito (peça permissão). Tom de celebração do final de semana + última chamada do dia.</div>
+      <div class="attach-note">📌 Escreva "Última chamada hoje 🍕" sobre a foto + link do portal</div>
+    </div>
+  </div>
+
+  <div class="story-card" style="outline:2px solid var(--yellow)">
+    <div class="story-header" style="background:#412402">
+      <div><div class="story-day-label">Dias de vídeo publicado — Seg / Qua / Sex</div><div class="story-headline">🎬 TEM VÍDEO NOVO NO AR — CORRE LÁ VER!</div></div>
+    </div>
+    <div class="story-body">
+      <span class="story-type type-video">🎬 Compartilhar vídeo</span>
+      <div class="story-desc">Compartilhar o Reels/TikTok direto no story. O Instagram já puxa a thumbnail automaticamente.</div>
+      <div class="attach-note">📌 Adicionar sticker "Assistir agora" em cima do vídeo compartilhado</div>
+    </div>
+  </div>
+
+  <div class="story-card">
+    <div class="story-header" style="background:#185FA5">
+      <div><div class="story-day-label">1x por semana — Dúvidas</div><div class="story-headline">❓ DÚVIDA SOBRE O AGENDAMENTO? PERGUNTA AQUI</div></div>
+    </div>
+    <div class="story-body">
+      <span class="story-type type-ai">🤖 Criado pela IA</span>
+      <div class="story-desc">Usar a caixinha de perguntas do Instagram. Responda as dúvidas no próximo story. Ótimo para engajamento e tirar dúvidas reais.</div>
+      <div class="prompt-block" style="margin-top:10px"><button class="copy-btn" onclick="cpBtn(this, 'st3')">Copiar</button><div class="prompt-text" id="st3">Create a bold Instagram story background (1080x1920px) for Quadrô Pizza. Red background (#CC1F1F), cream checkered borders top and bottom. Top: pizza mascot with a speech bubble with "?". Center: leave a clean white rectangle area (600x300px) for the Instagram question sticker to be placed. Below the rectangle in yellow bold: "TIRA SUA DÚVIDA SOBRE O AGENDAMENTO". Bottom: "Respondo no próximo story!" in white. Retro bold style.</div></div>
+      <div class="attach-note" style="margin-top:8px">📌 Após gerar, adicionar o sticker de "Caixinha de perguntas" no espaço branco antes de publicar</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHATSAPP -->
+<div id="whatsapp" class="section">
+  <div class="sec-title">MENSAGENS WHATSAPP</div>
+  <div class="sec-sub">Copie a mensagem e configure nas respostas automáticas do WhatsApp Business.</div>
+
+  <div style="background:#E8F5EE;border-radius:12px;padding:12px 16px;font-size:13px;color:#0F5C3A;margin-bottom:20px;line-height:1.6">
+    💡 <strong>Dica:</strong> Para configurar respostas automáticas, abra o WhatsApp Business → Ferramentas Comerciais → Respostas Rápidas. Cole cada mensagem com o atalho indicado.
+  </div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>👋 Boas-vindas automática</span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="wa-bubble" id="wa1">🍕 *Eii, bem-vindo à Quadrô Pizza!*
+
+A pizza quadrada artesanal que virou vício na UNIVALI 😎✨
+
+👇 Faça seu pedido online agora e *retire sem fila no recreio:*
+🔗 [LINK DO PORTAL]
+
+📍 Ao lado do Teatro da UNIVALI — Bloco C2
+⏰ Disponível nos horários de intervalo
+
+_Escolha uma opção:_
+*1* — Ver sabores 🍕
+*2* — Ver combos 💰
+*3* — Como funciona o agendamento 📲
+*4* — Entrega para alunos do CAU 🎒
+*5* — Horário e localização 📍
+*6* — Falar com a gente 💬</div>
+    <button class="wa-copy" onclick="wacp(this,'wa1')">Copiar mensagem</button>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>📲 Opção 3 — Como funciona o agendamento</span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="wa-bubble" id="wa2">📲 *Como funciona o agendamento?*
+
+É super simples! Veja o passo a passo:
+
+*1️⃣* Acesse o portal: 🔗 [LINK DO PORTAL]
+*2️⃣* Escolha seu sabor favorito 🍕
+*3️⃣* Selecione o horário que prefere retirar ⏰
+*4️⃣* Finalize o pedido — pronto! ✅
+
+📦 Sua pizza fica separada no seu nome. É só chegar e pegar, *sem fila no recreio!*
+
+❓ *Dúvidas frequentes:*
+• _Posso escolher o horário?_ Sim, você escolhe na hora! 🕐
+• _Qualquer curso pode agendar?_ Sim, todos os cursos! 🎓
+• _Como sei que ficou pronto?_ Você recebe confirmação pelo portal 📲
+• _Posso cancelar?_ Fale com a gente com antecedência 😊</div>
+    <button class="wa-copy" onclick="wacp(this,'wa2')">Copiar mensagem</button>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>🎒 Opção 4 — Entrega para alunos do CAU</span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="wa-bubble" id="wa3">🎒 *Entrega para alunos do CAU até o 5º ano!* 🍕
+
+Temos uma opção especial para os pequenos da UNIVALI 😍
+
+Na hora de fazer o pedido pelo portal, informe:
+📌 *Bloco* da sala
+🚪 *Número da sala*
+🎓 *Ano da turma* (disponível até o 5º ano)
+
+E a pizza chega certinha na hora do intervalo! 🎉
+
+👇 Faça o pedido agora:
+🔗 [LINK DO PORTAL]
+
+Qualquer dúvida é só chamar! 💛</div>
+    <button class="wa-copy" onclick="wacp(this,'wa3')">Copiar mensagem</button>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>📍 Opção 5 — Horário e localização</span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="wa-bubble" id="wa4">📍 *Onde e quando nos encontrar*
+
+🗺️ *Localização:*
+Ao lado do Teatro da UNIVALI — Bloco C2
+
+⏰ *Horário:*
+Segunda a Sexta — horários de intervalo/recreio da UNIVALI
+
+⚡ *Dica importante:* o intervalo é curto! Agende pelo portal e retire sem fila:
+🔗 [LINK DO PORTAL]
+
+Qualquer dúvida é só chamar! 😊</div>
+    <button class="wa-copy" onclick="wacp(this,'wa4')">Copiar mensagem</button>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>🌅 Pós-venda — após a entrega</span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="wa-bubble" id="wa5">Eii, [Nome]! 🍕😎
+
+Espero que tenha curtido sua Quadrô hoje!
+
+⭐ Você recebeu um link de avaliação no portal — leva menos de 1 minuto e nos ajuda demais!
+
+📲 Ainda não segue a gente no Instagram?
+👉 @quadropizza
+
+Lá a gente posta sabores do dia, ofertas e novidades que só quem segue fica sabendo 👀</div>
+    <button class="wa-copy" onclick="wacp(this,'wa5')">Copiar mensagem</button>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>🎁 Cupom após avaliação <span class="badge badge-green">Pós-venda</span></span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div id="discount-preview" style="font-size:12px;color:var(--gray);margin-bottom:8px">💡 Configure o % de desconto na tela Início para personalizar esta mensagem.</div>
+    <div class="wa-bubble" id="wa6">🎉 *Valeu por avaliar, [Nome]!*
+
+Sua opinião é muito importante pra gente 💛
+
+Como agradecimento, você ganhou:
+
+🏷️ *[DESCONTO]% de desconto no próximo pedido*
+📌 Código: *QUADRO[DESCONTO]*
+📅 Válido por 7 dias
+
+👇 Use no portal na hora de fechar:
+🔗 [LINK DO PORTAL]
+
+Até a próxima! 🍕😎</div>
+    <button class="wa-copy" onclick="wacp(this,'wa6')">Copiar mensagem</button>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>🍕 Opção 1 — Sabores</span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="wa-bubble" id="wa7">🍕 *Nossos Sabores*
+
+🧀 *Mussarela* — clássica e irresistível
+🍅 *Margherita* — tomate, manjericão e mussarela
+🌶️ *Calabresa* — calabresa acebolada
+🐷 *Portuguesa* — presunto, ovo, cebola, azeitona
+🔴 *Pepperoni* — pepperoni no ponto certo
+⭐ *Sabor do dia* — surpresa artesanal
+
+_Todos feitos na hora, no formato quadrado único! ✂️_
+
+Quer pedir? Acesse:
+🔗 [LINK DO PORTAL]</div>
+    <button class="wa-copy" onclick="wacp(this,'wa7')">Copiar mensagem</button>
+  </div></div>
+
+  <div class="accordion"><button class="accordion-btn" onclick="toggleAccordion(this)"><span>💰 Opção 2 — Combos</span><span class="accordion-arrow">▼</span></button><div class="accordion-body">
+    <div class="wa-bubble" id="wa8">💰 *Nossos Combos*
+
+Combina mais, paga menos 😏
+
+📦 *Combo Duplo* — 2 fatias por [R$XX]
+📦 *Combo Trio* — 3 fatias por [R$XX]
+📦 *Combo Especial* — [descrição do combo]
+
+🎯 *Dica:* agende pelo portal e garante o combo sem perder tempo na fila!
+
+🔗 [LINK DO PORTAL]
+
+_Preços sujeitos a disponibilidade. Consulte no portal._</div>
+    <button class="wa-copy" onclick="wacp(this,'wa8')">Copiar mensagem</button>
+  </div></div>
+</div>
+
+</main>
+
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// NAV
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// DATE
+function setDate() {
+  const d = new Date();
+  const days = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+  const months = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  document.getElementById('header-date').textContent = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+  
+  const start = new Date('2026-05-11');
+  const end = new Date('2026-05-31');
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const remaining = Math.max(0, Math.ceil((end - today) / 86400000));
+  document.getElementById('stat-days').textContent = remaining > 0 ? remaining : 0;
+  
+  const dashSub = document.getElementById('dash-sub');
+  if(today >= start && today <= end) {
+    dashSub.textContent = 'Campanha ativa! ' + remaining + ' dias restantes — foco no agendamento! 🎯';
+  } else {
+    dashSub.textContent = 'Aqui está o resumo do seu plano de marketing Quadrô Pizza.';
+  }
+}
+setDate();
+
+// ACCORDION
+function toggleAccordion(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  document.querySelectorAll('.accordion-btn.open').forEach(b => { b.classList.remove('open'); b.nextElementSibling.classList.remove('open'); });
+  if(!isOpen) { btn.classList.add('open'); body.classList.add('open'); }
+}
+
+// COPY PROMPT
+function cpBtn(btn, id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copiado ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// COPY WA
+function wacp(btn, id) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copiado ✓';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copiar mensagem'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// TASK TOGGLE
+function toggleTask(el) {
+  el.classList.toggle('done-task');
+  updateProgress();
+}
+
+function resetDay(group) {
+  document.querySelectorAll('#tasks-' + group + ' .task-item').forEach(t => t.classList.remove('done-task'));
+  updateProgress();
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll('.task-item');
+  const done = document.querySelectorAll('.task-item.done-task');
+  const pct = all.length ? Math.round((done.length / all.length) * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = pct + '%';
+}
+
+// PORTAL LINK
+function saveLink(val) { localStorage.setItem('qp_link', val); updateWALinks(val); }
+function openPortal() {
+  const link = document.getElementById('portal-link').value;
+  if(link) window.open(link, '_blank');
+  else alert('Cole o link do portal primeiro!');
+}
+function updateWALinks(link) {
+  document.querySelectorAll('.wa-bubble').forEach(b => {
+    b.textContent = b.textContent.replace(/\[LINK DO PORTAL\]/g, link || '[LINK DO PORTAL]');
+  });
+}
+
+// DISCOUNT
+function saveDiscount(val) {
+  localStorage.setItem('qp_discount', val);
+  const wa6 = document.getElementById('wa6');
+  const base = `🎉 *Valeu por avaliar, [Nome]!*\n\nSua opinião é muito importante pra gente 💛\n\nComo agradecimento, você ganhou:\n\n🏷️ *${val || '[DESCONTO]'}% de desconto no próximo pedido*\n📌 Código: *QUADRO${val || '[DESCONTO]'}*\n📅 Válido por 7 dias\n\n👇 Use no portal na hora de fechar:\n🔗 ${document.getElementById('portal-link').value || '[LINK DO PORTAL]'}\n\nAté a próxima! 🍕😎`;
+  wa6.textContent = base;
+  if(val) { document.getElementById('discount-preview').textContent = '✅ Desconto configurado: ' + val + '%'; document.getElementById('discount-preview').style.color = 'var(--green)'; }
+}
+
+// LOAD SAVED
+window.onload = () => {
+  const link = localStorage.getItem('qp_link');
+  const disc = localStorage.getItem('qp_discount');
+  if(link) { document.getElementById('portal-link').value = link; updateWALinks(link); }
+  if(disc) { document.getElementById('discount-val').value = disc; saveDiscount(disc); }
+};
+
+// SCROLL TOP
+window.addEventListener('scroll', () => {
+  document.getElementById('scrollTop').classList.toggle('show', window.scrollY > 300);
+});
+</script>
+</body>
+</html>
